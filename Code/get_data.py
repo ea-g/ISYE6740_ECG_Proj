@@ -3,6 +3,7 @@ import numpy as np
 import wfdb
 import ast
 import os
+from sklearn.model_selection import train_test_split
 
 def load_raw_data(df, sampling_rate, path):
     if sampling_rate == 100:
@@ -21,6 +22,7 @@ Y = pd.read_csv(path+'ptbxl_database.csv', index_col='ecg_id')
 Y.scp_codes = Y.scp_codes.apply(lambda x: ast.literal_eval(x))
 
 # reduce data set to only the 9th fold
+Y = Y[Y.strat_fold==9]
 
 
 # Load raw signal data
@@ -40,11 +42,9 @@ def aggregate_diagnostic(y_dic):
 # Apply diagnostic superclass
 Y['diagnostic_superclass'] = Y.scp_codes.apply(aggregate_diagnostic)
 
+# label normal true/false
+Y['normal'] = Y.diagnostic_superclass.apply(lambda x: 'NORM' in x)
+y = Y['normal']
+
 # Split data into train and test
-test_fold = 10
-# Train
-X_train = X[np.where(Y.strat_fold != test_fold)]
-y_train = Y[(Y.strat_fold != test_fold)].diagnostic_superclass
-# Test
-X_test = X[np.where(Y.strat_fold == test_fold)]
-y_test = Y[Y.strat_fold == test_fold].diagnostic_superclass
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .20, random_state=5)
