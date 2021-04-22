@@ -42,7 +42,7 @@ def matrix_2_df(matrix, column_prefix='lead_'):
     return DataFrame(data=output)
 
 # dictionary of dictionaries of model paramenters (follow formatting if edit)
-model_params = {'svc':{'svc__C':np.logspace(-3, 1, 5), 'svc__kernel':['scale', 'auto']}, 
+model_params = {'svc':{'svc__C':np.logspace(-3, 1, 5), 'svc__kernel':['linear', 'rbf']}, 
                'logisticregression':{'logisticregression__C':np.logspace(-3, 1, 5)}, 
                'kneighborsclassifier': {'kneighborsclassifier__k':[1, 5, 7]}, 
                'randomforestclassifier': {'randomforestclassifier__n_estimators':[50, 100, 200]},
@@ -73,5 +73,5 @@ def make_gridcv(classifier):
     return GridSearchCV(pipe, default_params)
 
 
-    
+
 

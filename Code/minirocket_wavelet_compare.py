@@ -41,7 +41,7 @@ models = [SVC(), LogisticRegression(max_iter=300), GaussianNB(),
 unfit_models = defaultdict(GridSearchCV)
 
 # instantiate models
-for m in models[:2]:
+for m in models[:1]:
     label = str(type(m)).split('.')[-1][:-2]
     unfit_models[label] = make_gridcv(m)
 
