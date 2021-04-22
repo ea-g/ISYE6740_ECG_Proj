@@ -70,7 +70,7 @@ def make_gridcv(classifier):
     # update parameters with model's parameters
     default_params.update(model_params[list(pipe.named_steps.keys())[-1]])
     
-    return GridSearchCV(pipe, default_params, n_jobs=-1)
+    return GridSearchCV(pipe, default_params)
 
 
     

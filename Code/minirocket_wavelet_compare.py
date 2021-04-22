@@ -34,14 +34,14 @@ X_test_wv = get_ecg_features(get_data.X_test)
 
 # list of models, feel free to add more (for parameters see model_params dict 
 # in utils.py)
-models = [SVC(), LogisticRegression(max_iter=400), GaussianNB(),
+models = [SVC(), LogisticRegression(max_iter=300), GaussianNB(),
           KNeighborsClassifier(),RandomForestClassifier(), RidgeClassifier(),
           AdaBoostClassifier()]
 
 unfit_models = defaultdict(GridSearchCV)
 
 # instantiate models
-for m in models:
+for m in models[:2]:
     label = str(type(m)).split('.')[-1][:-2]
     unfit_models[label] = make_gridcv(m)
 

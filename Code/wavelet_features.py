@@ -70,7 +70,7 @@ def get_single_ecg_features(signal, waveletname='db6'):
     return np.array(features).flatten()
 
 
-def get_ecg_features(ecg_data, parallel=True):
+def get_ecg_features(ecg_data, parallel=False):
     if parallel:
         pool = multiprocessing.Pool(18)
         return np.array(pool.map(get_single_ecg_features, ecg_data))
