@@ -53,13 +53,14 @@ def FMM(hb):
             delta = lm.coef_[0] # coefficient of cosine
             gamma = lm.coef_[1] # coefficient of sine
             
-            #print('X: \n', X)
-            #print('hb: \n', hb.T)
-            #print('gamma is: ', gamma)
+            if gamma == 0:
+                print('Getting zero at a = ', a, ' b = ', b)
+                break
             
             M_1 = lm.intercept_ # the intercept term
             A_1 = np.sqrt(delta**2 + gamma**2)
             alpha_1 = alpha[a]
+            
             beta_1 = np.arctan(-delta/gamma) + alpha_1
             omega_1 = omega[b]
             
@@ -86,10 +87,10 @@ def FMM(hb):
     
     # Perform the search
     def objectiveFunc(params):
-
         J = params[0] + params[1] * np.cos(params[2] + 2*np.arctan(params[3] * np.tan(t-params[4])/2))
         return np.sum( (hb - J)**2/ n )
-    
+
+    print(RSS_aux, RSS, rest1, rest2)
     init_params = [M_hat, A_hat, beta_hat, omega_hat, alpha_hat]
     result = minimize(objectiveFunc, init_params, method='nelder-mead')
     
@@ -110,36 +111,41 @@ def sim_hb(params, t):
     return params[0] + params[1] * np.cos(params[2] + 2*np.arctan(params[3] * np.tan(t-params[4])/2))
 
 
-def backfit(hb, resid, params):
-    # Initialize
-    t = np.linspace(0, 2*np.pi, len(hb), endpoint=True)
-    wave_params = []
-    # First define params for R_peaks
-    wave_1 = [
-        alpha_1 = 
-        ]
-    for i in range(5):
-        wave_params[i] = 
-    
-    w1 = sim_hb(params, t)
-    
-    
-    return
+def init_rpeak(hb, t):
+    '''Return parameters (guess) for an R wave'''
+    params_1 = (
+        0, # M
+        np.max(hb), # A
+        np.random.uniform(np.pi/2, 5*np.pi/3), # beta between pi/2 and 5*pi/3
+        np.random.uniform(0, 0.12), # omega
+        np.median(t), # alpha. Initial guess at midpoint of t
+        )
+    return params_1
 
 
 #===========================================================
 # hb for testing purpose
-t = np.linspace(0, 2*np.pi, len(hb), endpoint=True)
-hb =  np.array([-0.044, -0.038, -0.031, -0.025, -0.014,  0.008,  0.044,  0.045,
+'''hb =  np.array([-0.044, -0.038, -0.031, -0.025, -0.014,  0.008,  0.044,  0.045,
         0.034,  0.078,  0.052, -0.028, -0.063, -0.066, -0.058, -0.072,
        -0.055, -0.066, -0.04 ,  0.156,  0.344,  0.247,  0.007, -0.081,
        -0.058, -0.073, -0.088, -0.057, -0.094, -0.072, -0.051, -0.088,
        -0.077, -0.077, -0.067, -0.066, -0.055, -0.058, -0.056, -0.036,
        -0.035, -0.011, -0.001, -0.014,  0.041,  0.081,  0.064,  0.124,
         0.151,  0.137,  0.117,  0.071,  0.054,  0.034,  0.001, -0.057,
-       -0.071, -0.057, -0.075, -0.071])
+       -0.071, -0.057, -0.075, -0.071])'''
+
+hb = np.array([-0.121, -0.09 , -0.076, -0.03 , -0.015, -0.016,  0.033,  0.033,
+        0.015,  0.007, -0.021, -0.049, -0.095, -0.081, -0.069, -0.116,
+       -0.131, -0.079,  0.136,  0.676,  0.932,  0.273, -0.166, -0.041,
+       -0.036, -0.031, -0.038, -0.043, -0.039, -0.052, -0.051, -0.057,
+       -0.058, -0.057, -0.042, -0.049, -0.059, -0.037,  0.   ,  0.017,
+        0.018,  0.018,  0.02 ,  0.051,  0.072,  0.083,  0.126,  0.155,
+        0.172,  0.199,  0.234,  0.259,  0.252,  0.225,  0.197,  0.151,
+        0.089,  0.033, -0.019, -0.037])
 
 result = FMM(hb)
+
+t = np.linspace(0, 2*np.pi, len(hb), endpoint=True)
 hb_pred = sim_hb(result, t)
 
 fig, ax = plt.subplots()
@@ -147,3 +153,4 @@ ax.plot(hb)
 ax.plot(hb_pred)
 
 # 24, 438, 1180 look at the arythmia group
+
