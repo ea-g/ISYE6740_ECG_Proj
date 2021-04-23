@@ -14,18 +14,20 @@ def FMM(hb):
         t_i in [0, 2*pi]
     hbs : list
         Mv values for the heartbeats
-        
+    
     Returns
     ----------
-    A : 1x5 list
-        A 4x1 list containing the amplitude of the waves. The value 
+    M : scalar
+        Intercept term.
+    A : scalar
+       Amplitude of the waves. The value 
         is zero if the wave does not exist.
-    alpha : list
-        A 1x5 list containing the means or the locations of each wave
-    beta : list
-        A 1x5 list containing the skewness of each wave
-    omega : list
-        A 1x5 list containing the kurtosis of each wave
+    beta : scalar
+        Skewness
+    omega : scalar
+        Kurtosis
+    alpha : scalar
+        Mean or the location of each wave
     '''
 
     # Step 1: Compute the initial estimates for M, A, alpha, beta, omega
@@ -51,9 +53,9 @@ def FMM(hb):
             delta = lm.coef_[0] # coefficient of cosine
             gamma = lm.coef_[1] # coefficient of sine
             
-            print('X: \n', X)
-            print('hb: \n', hb.T)
-            print('gamma is: ', gamma)
+            #print('X: \n', X)
+            #print('hb: \n', hb.T)
+            #print('gamma is: ', gamma)
             
             M_1 = lm.intercept_ # the intercept term
             A_1 = np.sqrt(delta**2 + gamma**2)
@@ -84,6 +86,7 @@ def FMM(hb):
     
     # Perform the search
     def objectiveFunc(params):
+
         J = params[0] + params[1] * np.cos(params[2] + 2*np.arctan(params[3] * np.tan(t-params[4])/2))
         return np.sum( (hb - J)**2/ n )
     
@@ -95,17 +98,38 @@ def FMM(hb):
     print('Total Evaluations: %d' % result['nfev'])
     print('Solution: %s' % result['x'])
 
-    return result['x'][1], result['x'][4], result['x'][2], result['x'][3]
+    return result['x']
 
 
-def FMM_ecg():
-    pass
+def sim_hb(params, t):
+    '''Inputs must be a list of M_hat, A_hat, beta_hat, 
+    omega_hat, and alpha_hat in order. Since the output from the
+    FMM function is in this order, we can directly use output from the 
+    FMM function.
+    '''
+    return params[0] + params[1] * np.cos(params[2] + 2*np.arctan(params[3] * np.tan(t-params[4])/2))
 
 
+def backfit(hb, resid, params):
+    # Initialize
+    t = np.linspace(0, 2*np.pi, len(hb), endpoint=True)
+    wave_params = []
+    # First define params for R_peaks
+    wave_1 = [
+        alpha_1 = 
+        ]
+    for i in range(5):
+        wave_params[i] = 
+    
+    w1 = sim_hb(params, t)
+    
+    
+    return
 
 
 #===========================================================
 # hb for testing purpose
+t = np.linspace(0, 2*np.pi, len(hb), endpoint=True)
 hb =  np.array([-0.044, -0.038, -0.031, -0.025, -0.014,  0.008,  0.044,  0.045,
         0.034,  0.078,  0.052, -0.028, -0.063, -0.066, -0.058, -0.072,
        -0.055, -0.066, -0.04 ,  0.156,  0.344,  0.247,  0.007, -0.081,
@@ -115,6 +139,11 @@ hb =  np.array([-0.044, -0.038, -0.031, -0.025, -0.014,  0.008,  0.044,  0.045,
         0.151,  0.137,  0.117,  0.071,  0.054,  0.034,  0.001, -0.057,
        -0.071, -0.057, -0.075, -0.071])
 
-FMM(hb)
+result = FMM(hb)
+hb_pred = sim_hb(result, t)
 
+fig, ax = plt.subplots()
+ax.plot(hb)
+ax.plot(hb_pred)
 
+# 24, 438, 1180 look at the arythmia group
