@@ -6,8 +6,9 @@ Created on Fri Mar 26 13:18:48 2021
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
 import os
+import matplotlib.pyplot as plt
+import biosppy.signals.ecg as bse
 from sklearn.pipeline import make_pipeline
 from sklearn.decomposition import PCA
 from sklearn.model_selection import GridSearchCV
@@ -78,3 +79,41 @@ def make_gridcv(classifier):
     default_params.update(model_params[list(pipe.named_steps.keys())[-1]])
 
     return GridSearchCV(pipe, default_params)
+
+
+def extract_hbs(lead):
+    ''' Return a list of heartbeats from a single ECG lead
+    '''
+    # To extract a single heartbeat, we begin by identifying 
+    # the location of R-peaks. Do we actually need to correct the R-peaks?
+    r_locs = bse.christov_segmenter(signal=lead, sampling_rate=100)[0]
+    r_locs = bse.correct_rpeaks(signal=lead, 
+                                rpeaks=r_locs, 
+                                sampling_rate=100, 
+                                tol=0.05)[0]
+    
+    
+    hbs = bse.extract_heartbeats(signal=lead, 
+                                 rpeaks=r_locs, 
+                                 sampling_rate=100, 
+                                 before=0.2, 
+                                 after=0.4)[0]
+    return hbs
+
+def plot_heartbeats(hbs, diff_plots=False):
+    '''Plot heartbeats from a single ECG lead. If diff_plots is False, 
+    plot all heartbeats on the same plot, else plot many subplots'''
+    if diff_plots:
+        fig, ax =  plt.subplots(len(hbs), 1)
+        for i, hb in enumerate(hbs):
+            x = np.arange(0, len(hb))
+            ax[i].plot(x, hb)
+        ax.set_title('Number of hearbeats: {}'.format(len(hbs)))
+        plt.show()
+    else:
+        fig, ax = plt.subplots()
+        for i, hb in enumerate(hbs):
+            x = np.arange(0, len(hb))
+            ax.plot(x, hb)
+        ax.set_title('Number of hearbeats: {}'.format(len(hbs)))
+        plt.show()
