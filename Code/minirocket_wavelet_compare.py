@@ -42,7 +42,7 @@ models = [SGDClassifier(max_iter=2000), LogisticRegression(max_iter=300), Gaussi
 unfit_models = defaultdict(GridSearchCV)
 
 # instantiate models
-for m in models[1:2]:
+for m in models[4:5]:
     label = str(type(m)).split('.')[-1][:-2]
     unfit_models[label] = make_gridcv(m, True, scoring='roc_auc_ovr', n_jobs=2)
 
