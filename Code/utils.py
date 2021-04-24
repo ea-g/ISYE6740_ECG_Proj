@@ -56,15 +56,17 @@ model_params = {'svc': {'svc__C': np.logspace(-3, 1, 5), 'svc__kernel': ['rbf'],
                 'adaboostclassifier': {'adaboostclassifier__n_estimators': [50, 100]}}
 
 
-def make_gridcv(classifier):
+def make_gridcv(classifier, **kwargs):
     """
     Given an sklearn classifier (e.g. SVC()), builds a pipeline and parameter grid based on model_params dictionary and
     default estimators (scaling, pca).
 
     Returns a GridSearchCV object ready to be fit to data.
+
+    **kwargs from GridSearchCV can be passed in as well
     """
     # ==================================================================================
-    # We will need to edit the evaluation critereon of grid cv to a different metric
+    # We will need to edit the evaluation criterion of grid cv to a different metric
     # for multilabel classification. See:
     # https://scikit-learn.org/stable/modules/model_evaluation.html#multimetric-scoring
     # 
@@ -78,33 +80,33 @@ def make_gridcv(classifier):
     # update parameters with model's parameters
     default_params.update(model_params[list(pipe.named_steps.keys())[-1]])
 
-    return GridSearchCV(pipe, default_params)
+    return GridSearchCV(pipe, default_params, **kwargs)
 
 
 def extract_hbs(lead):
-    ''' Return a list of heartbeats from a single ECG lead
-    '''
+    """ Return a list of heartbeats from a single ECG lead
+    """
     # To extract a single heartbeat, we begin by identifying 
     # the location of R-peaks. Do we actually need to correct the R-peaks?
     r_locs = bse.christov_segmenter(signal=lead, sampling_rate=100)[0]
-    r_locs = bse.correct_rpeaks(signal=lead, 
-                                rpeaks=r_locs, 
-                                sampling_rate=100, 
+    r_locs = bse.correct_rpeaks(signal=lead,
+                                rpeaks=r_locs,
+                                sampling_rate=100,
                                 tol=0.05)[0]
-    
-    
-    hbs = bse.extract_heartbeats(signal=lead, 
-                                 rpeaks=r_locs, 
-                                 sampling_rate=100, 
-                                 before=0.2, 
+
+    hbs = bse.extract_heartbeats(signal=lead,
+                                 rpeaks=r_locs,
+                                 sampling_rate=100,
+                                 before=0.2,
                                  after=0.4)[0]
     return hbs
 
+
 def plot_heartbeats(hbs, diff_plots=False):
-    '''Plot heartbeats from a single ECG lead. If diff_plots is False, 
-    plot all heartbeats on the same plot, else plot many subplots'''
+    """Plot heartbeats from a single ECG lead. If diff_plots is False,
+    plot all heartbeats on the same plot, else plot many subplots"""
     if diff_plots:
-        fig, ax =  plt.subplots(len(hbs), 1)
+        fig, ax = plt.subplots(len(hbs), 1)
         for i, hb in enumerate(hbs):
             x = np.arange(0, len(hb))
             ax[i].plot(x, hb)

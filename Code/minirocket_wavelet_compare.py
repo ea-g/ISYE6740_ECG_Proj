@@ -58,7 +58,7 @@ sgd_minir_clf = load(os.path.join(output_folder, 'SGDClassifier_MiniR_gridcv.job
 sgd_wav_clf = load(os.path.join(output_folder, 'SGDClassifier_Wav_gridcv.joblib'))
 
 test_scores = [sgd_minir_clf.score(X_test_mr, get_data.y_test), sgd_wav_clf.score(X_test_wv, get_data.y_test)]
-training_score = [sgd_minir_clf.best_score_ , sgd_wav_clf.best_score_]
+training_score = [sgd_minir_clf.best_score_, sgd_wav_clf.best_score_]
 
 classifiers = ['SVM using MiniRocket', 'SVM using Wavelet']
 
@@ -71,7 +71,7 @@ rects1 = ax.bar(x - width/2, test_scores, width, label='test_set')
 rects2 = ax.bar(x + width/2, training_score, width, label='training_set')
 
 # Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_ylabel('Scores')
+ax.set_ylabel('Accuracy Scores')
 ax.set_xticks(x)
 ax.set_xticklabels(classifiers)
 ax.legend()
