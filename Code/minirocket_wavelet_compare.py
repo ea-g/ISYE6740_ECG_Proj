@@ -42,38 +42,38 @@ models = [SGDClassifier(max_iter=2000), LogisticRegression(max_iter=300), Gaussi
 unfit_models = defaultdict(GridSearchCV)
 
 # instantiate models
-# for m in models[:1]:
-#     label = str(type(m)).split('.')[-1][:-2]
-#     unfit_models[label] = make_gridcv(m)
+for m in models[1:2]:
+    label = str(type(m)).split('.')[-1][:-2]
+    unfit_models[label] = make_gridcv(m, True, scoring='roc_auc_ovr', n_jobs=2)
+
+# fit models using minirocket and wavelet transform
+fit_models = defaultdict(GridSearchCV)
+for name, clf in unfit_models.items():
+    for training, label in zip([X_train_mr, X_train_wv], ['MiniR-multi', 'Wav-multi']):
+        fit_models[name+'_'+label] = clf.fit(training, get_data.y_train_multi)
+        dump(clf, os.path.join(output_folder, '{}_{}_gridcv.joblib'.format(name, label)))
+
+# # below here is loading in saved models for comparison
+# sgd_minir_clf = load(os.path.join(output_folder, 'SGDClassifier_MiniR_gridcv.joblib'))
+# sgd_wav_clf = load(os.path.join(output_folder, 'SGDClassifier_Wav_gridcv.joblib'))
 #
-# # fit models using minirocket and wavelet transform
-# fit_models = defaultdict(GridSearchCV)
-# for name, clf in unfit_models.items():
-#     for training, label in zip([X_train_mr, X_train_wv], ['MiniR', 'Wav']):
-#         fit_models[name+'_'+label] = clf.fit(training, get_data.y_train)
-#         dump(clf, os.path.join(output_folder, '{}_{}_gridcv.joblib'.format(name, label)))
-
-# below here is loading in saved models for comparison
-sgd_minir_clf = load(os.path.join(output_folder, 'SGDClassifier_MiniR_gridcv.joblib'))
-sgd_wav_clf = load(os.path.join(output_folder, 'SGDClassifier_Wav_gridcv.joblib'))
-
-test_scores = [sgd_minir_clf.score(X_test_mr, get_data.y_test), sgd_wav_clf.score(X_test_wv, get_data.y_test)]
-training_score = [sgd_minir_clf.best_score_, sgd_wav_clf.best_score_]
-
-classifiers = ['SVM using MiniRocket', 'SVM using Wavelet']
-
-
-x = np.arange(len(classifiers))  # the label locations
-width = 0.35  # the width of the bars
-
-fig, ax = plt.subplots()
-rects1 = ax.bar(x - width/2, test_scores, width, label='test_set')
-rects2 = ax.bar(x + width/2, training_score, width, label='training_set')
-
-# Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_ylabel('Accuracy Scores')
-ax.set_xticks(x)
-ax.set_xticklabels(classifiers)
-ax.legend()
-fig.tight_layout()
-plt.show()
+# test_scores = [sgd_minir_clf.score(X_test_mr, get_data.y_test), sgd_wav_clf.score(X_test_wv, get_data.y_test)]
+# training_score = [sgd_minir_clf.best_score_, sgd_wav_clf.best_score_]
+#
+# classifiers = ['SVM using MiniRocket', 'SVM using Wavelet']
+#
+#
+# x = np.arange(len(classifiers))  # the label locations
+# width = 0.35  # the width of the bars
+#
+# fig, ax = plt.subplots()
+# rects1 = ax.bar(x - width/2, test_scores, width, label='test_set')
+# rects2 = ax.bar(x + width/2, training_score, width, label='training_set')
+#
+# # Add some text for labels, title and custom x-axis tick labels, etc.
+# ax.set_ylabel('Accuracy Scores')
+# ax.set_xticks(x)
+# ax.set_xticklabels(classifiers)
+# ax.legend()
+# fig.tight_layout()
+# plt.show()
