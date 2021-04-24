@@ -5,32 +5,33 @@ import ast
 import os
 from sklearn.model_selection import train_test_split
 
+
 def load_raw_data(df, sampling_rate, path):
     if sampling_rate == 100:
-        data = [wfdb.rdsamp(path+f) for f in df.filename_lr]
+        data = [wfdb.rdsamp(path + f) for f in df.filename_lr]
     else:
-        data = [wfdb.rdsamp(path+f) for f in df.filename_hr]
+        data = [wfdb.rdsamp(path + f) for f in df.filename_hr]
     data = np.array([signal for signal, meta in data])
     return data
 
 
 path = os.path.join(r'..\Data', '')
-sampling_rate=100
+sampling_rate = 100
 
 # load and convert annotation data
-Y = pd.read_csv(path+'ptbxl_database.csv', index_col='ecg_id')
+Y = pd.read_csv(path + 'ptbxl_database.csv', index_col='ecg_id')
 Y.scp_codes = Y.scp_codes.apply(lambda x: ast.literal_eval(x))
 
 # reduce data set to only the 9th fold
-Y = Y[Y.strat_fold==9]
-
+Y = Y[Y.strat_fold == 9]
 
 # Load raw signal data
 X = load_raw_data(Y, sampling_rate, path)
 
 # Load scp_statements.csv for diagnostic aggregation
-agg_df = pd.read_csv(path+'scp_statements.csv', index_col=0)
+agg_df = pd.read_csv(path + 'scp_statements.csv', index_col=0)
 agg_df = agg_df[agg_df.diagnostic == 1]
+
 
 def aggregate_diagnostic(y_dic):
     tmp = []
@@ -38,6 +39,7 @@ def aggregate_diagnostic(y_dic):
         if key in agg_df.index:
             tmp.append(agg_df.loc[key].diagnostic_class)
     return list(set(tmp))
+
 
 # Apply diagnostic superclass
 Y['diagnostic_superclass'] = Y.scp_codes.apply(aggregate_diagnostic)
@@ -47,4 +49,8 @@ Y['normal'] = Y.diagnostic_superclass.apply(lambda x: 'NORM' in x)
 y = Y['normal']
 
 # Split data into train and test
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = .20, random_state=5)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.20, random_state=5)
+
+# Same train test split but for multilabel problem
+X_train_multi, X_test_multi, y_train_multi, y_test_multi = train_test_split(X, Y['diagnostic_superclass'],
+                                                                            test_size=.20, random_state=5)
