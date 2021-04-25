@@ -6,31 +6,31 @@ import os
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MultiLabelBinarizer
 
+data_path = os.path.abspath(r'..\Data')
+sampling_rate = 100
+
 
 def load_raw_data(df, sampling_rate, path):
     if sampling_rate == 100:
-        data = [wfdb.rdsamp(path + f) for f in df.filename_lr]
+        data = [wfdb.rdsamp(os.path.join(path, f)) for f in df.filename_lr]
     else:
-        data = [wfdb.rdsamp(path + f) for f in df.filename_hr]
+        data = [wfdb.rdsamp(os.path.join(path, f)) for f in df.filename_hr]
     data = np.array([signal for signal, meta in data])
     return data
 
 
-path = os.path.join(r'..\Data', '')
-sampling_rate = 100
-
 # load and convert annotation data
-Y = pd.read_csv(path + 'ptbxl_database.csv', index_col='ecg_id')
+Y = pd.read_csv(os.path.join(data_path, 'ptbxl_database.csv'), index_col='ecg_id')
 Y.scp_codes = Y.scp_codes.apply(lambda x: ast.literal_eval(x))
 
 # reduce data set to only the 9th fold
 Y = Y[Y.strat_fold == 9]
 
 # Load raw signal data
-X = load_raw_data(Y, sampling_rate, path)
+X = load_raw_data(Y, sampling_rate, data_path)
 
 # Load scp_statements.csv for diagnostic aggregation
-agg_df = pd.read_csv(path + 'scp_statements.csv', index_col=0)
+agg_df = pd.read_csv(os.path.join(data_path, 'scp_statements.csv'), index_col=0)
 agg_df = agg_df[agg_df.diagnostic == 1]
 
 
