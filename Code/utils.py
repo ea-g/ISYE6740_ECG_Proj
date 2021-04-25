@@ -13,6 +13,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.decomposition import PCA
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
+from sklearn.multiclass import OneVsRestClassifier
 
 output_folder = os.path.abspath('..\Output')
 
@@ -56,7 +57,7 @@ model_params = {'svc': {'svc__C': np.logspace(-3, 1, 5), 'svc__kernel': ['rbf'],
                 'adaboostclassifier': {'adaboostclassifier__n_estimators': [50, 100]}}
 
 
-def make_gridcv(classifier, **kwargs):
+def make_gridcv(classifier, multi_label=False, **kwargs):
     """
     Given an sklearn classifier (e.g. SVC()), builds a pipeline and parameter grid based on model_params dictionary and
     default estimators (scaling, pca).
@@ -64,6 +65,12 @@ def make_gridcv(classifier, **kwargs):
     Returns a GridSearchCV object ready to be fit to data.
 
     **kwargs from GridSearchCV can be passed in as well
+    Useful kwargs:
+        - scoring = 'roc_auc_ovr' (makes scoring based on roc_auc for onevsrest multilabel classification)
+        - n_jobs = int (runs jobs in parallel processes, maybe speeding things up but be careful and check docs!)
+
+    for available scoring metrics see:
+    https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
     """
     # ==================================================================================
     # We will need to edit the evaluation criterion of grid cv to a different metric
@@ -73,12 +80,26 @@ def make_gridcv(classifier, **kwargs):
     # Multimetric is also possible:
     # https://scikit-learn.org/stable/modules/grid_search.html#multimetric-grid-search
     # ==================================================================================
-    pipe = make_pipeline(StandardScaler(), PCA(), classifier)
+
+    clf_key = str(type(classifier)).split('.')[-1][:-2].lower()
+
     default_params = dict(
         pca=['passthrough', PCA(.80, svd_solver='full'), PCA(.90, svd_solver='full'), PCA(.95, svd_solver='full')])
 
-    # update parameters with model's parameters
-    default_params.update(model_params[list(pipe.named_steps.keys())[-1]])
+    if multi_label:
+        pipe = make_pipeline(StandardScaler(), PCA(), OneVsRestClassifier(classifier))
+        # update parameters with the chosen model's, formatting for OneVsRest
+        if clf_key in model_params.keys():
+            multilabel_params = {'onevsrestclassifier__estimator__{}'.format(i.split('_')[-1]): j for i, j in
+                                 model_params[clf_key].items()}
+            default_params.update(multilabel_params)
+
+
+    else:
+        pipe = make_pipeline(StandardScaler(), PCA(), classifier)
+        # update parameters with model's parameters
+        if clf_key in model_params.keys():
+            default_params.update(model_params[clf_key])
 
     return GridSearchCV(pipe, default_params, **kwargs)
 
@@ -110,12 +131,12 @@ def plot_heartbeats(hbs, diff_plots=False):
         for i, hb in enumerate(hbs):
             x = np.arange(0, len(hb))
             ax[i].plot(x, hb)
-        ax.set_title('Number of hearbeats: {}'.format(len(hbs)))
+        ax.set_title('Number of heartbeats: {}'.format(len(hbs)))
         plt.show()
     else:
         fig, ax = plt.subplots()
         for i, hb in enumerate(hbs):
             x = np.arange(0, len(hb))
             ax.plot(x, hb)
-        ax.set_title('Number of hearbeats: {}'.format(len(hbs)))
+        ax.set_title('Number of heartbeats: {}'.format(len(hbs)))
         plt.show()
