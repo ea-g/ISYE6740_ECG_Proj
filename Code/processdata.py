@@ -11,11 +11,11 @@ from scipy.signal import resample
 # filtering - remove baseline wander + bandpass filter (butterworth)
 def filter(ECGdata,samplingrate=100, remove_wandering=True, bandpass=True):
     if remove_wandering==True:
-        ECG1 = hp.filtering.remove_baseline_wander(ECGdata,1000,cutoff=0.03,sample_rate=samplingrate)
+        ECG1 = hp.filtering.remove_baseline_wander(ECGdata,sample_rate=samplingrate,cutoff=0.03)
     else:
         ECG1 = ECGdata
     if bandpass==True:
-        ECG2 = hp.filtering.filter_signal(ECG1.T,cutoff=[0.4,20],sample_rate=samplingrate,order=3, filtertype='bandpass')
+        ECG2 = hp.filtering.filter_signal(ECG1.T,sample_rate=samplingrate,cutoff=[0.4,20],order=3, filtertype='bandpass')
         ECG2 = ECG2.T
     else:
         ECG2 = ECG1
