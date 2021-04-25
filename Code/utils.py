@@ -89,14 +89,17 @@ def make_gridcv(classifier, multi_label=False, **kwargs):
     if multi_label:
         pipe = make_pipeline(StandardScaler(), PCA(), OneVsRestClassifier(classifier))
         # update parameters with the chosen model's, formatting for OneVsRest
-        multilabel_params = {'onevsrestclassifier__estimator__{}'.format(i.split('_')[-1]): j for i, j in
-                             model_params[clf_key].items()}
-        default_params.update(multilabel_params)
+        if clf_key in model_params.keys():
+            multilabel_params = {'onevsrestclassifier__estimator__{}'.format(i.split('_')[-1]): j for i, j in
+                                 model_params[clf_key].items()}
+            default_params.update(multilabel_params)
+
 
     else:
         pipe = make_pipeline(StandardScaler(), PCA(), classifier)
         # update parameters with model's parameters
-        default_params.update(model_params[clf_key])
+        if clf_key in model_params.keys():
+            default_params.update(model_params[clf_key])
 
     return GridSearchCV(pipe, default_params, **kwargs)
 
