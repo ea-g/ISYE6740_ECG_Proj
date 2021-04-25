@@ -13,6 +13,7 @@ from sklearn.pipeline import make_pipeline
 from sklearn.decomposition import PCA
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
+from sklearn.multiclass import OneVsRestClassifier
 
 output_folder = os.path.abspath('..\Output')
 
@@ -56,64 +57,83 @@ model_params = {'svc': {'svc__C': np.logspace(-3, 1, 5), 'svc__kernel': ['rbf'],
                 'adaboostclassifier': {'adaboostclassifier__n_estimators': [50, 100]}}
 
 
-def make_gridcv(classifier):
+def make_gridcv(classifier, multi_label=False, **kwargs):
     """
     Given an sklearn classifier (e.g. SVC()), builds a pipeline and parameter grid based on model_params dictionary and
     default estimators (scaling, pca).
 
     Returns a GridSearchCV object ready to be fit to data.
+
+    **kwargs from GridSearchCV can be passed in as well
+    Useful kwargs:
+        - scoring = 'roc_auc_ovr' (makes scoring based on roc_auc for onevsrest multilabel classification)
+        - n_jobs = int (runs jobs in parallel processes, maybe speeding things up but be careful and check docs!)
+
+    for available scoring metrics see:
+    https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
     """
     # ==================================================================================
-    # We will need to edit the evaluation critereon of grid cv to a different metric
+    # We will need to edit the evaluation criterion of grid cv to a different metric
     # for multilabel classification. See:
     # https://scikit-learn.org/stable/modules/model_evaluation.html#multimetric-scoring
     # 
     # Multimetric is also possible:
     # https://scikit-learn.org/stable/modules/grid_search.html#multimetric-grid-search
     # ==================================================================================
-    pipe = make_pipeline(StandardScaler(), PCA(), classifier)
+
+    clf_key = str(type(classifier)).split('.')[-1][:-2].lower()
+
     default_params = dict(
         pca=['passthrough', PCA(.80, svd_solver='full'), PCA(.90, svd_solver='full'), PCA(.95, svd_solver='full')])
 
-    # update parameters with model's parameters
-    default_params.update(model_params[list(pipe.named_steps.keys())[-1]])
+    if multi_label:
+        pipe = make_pipeline(StandardScaler(), PCA(), OneVsRestClassifier(classifier))
+        # update parameters with the chosen model's, formatting for OneVsRest
+        multilabel_params = {'onevsrestclassifier__estimator__{}'.format(i.split('_')[-1]): j for i, j in
+                             model_params[clf_key].items()}
+        default_params.update(multilabel_params)
 
-    return GridSearchCV(pipe, default_params)
+    else:
+        pipe = make_pipeline(StandardScaler(), PCA(), classifier)
+        # update parameters with model's parameters
+        default_params.update(model_params[clf_key])
+
+    return GridSearchCV(pipe, default_params, **kwargs)
 
 
 def extract_hbs(lead):
-    ''' Return a list of heartbeats from a single ECG lead
-    '''
+    """ Return a list of heartbeats from a single ECG lead
+    """
     # To extract a single heartbeat, we begin by identifying 
     # the location of R-peaks. Do we actually need to correct the R-peaks?
     r_locs = bse.christov_segmenter(signal=lead, sampling_rate=100)[0]
-    r_locs = bse.correct_rpeaks(signal=lead, 
-                                rpeaks=r_locs, 
-                                sampling_rate=100, 
+    r_locs = bse.correct_rpeaks(signal=lead,
+                                rpeaks=r_locs,
+                                sampling_rate=100,
                                 tol=0.05)[0]
-    
-    
-    hbs = bse.extract_heartbeats(signal=lead, 
-                                 rpeaks=r_locs, 
-                                 sampling_rate=100, 
-                                 before=0.2, 
+
+    hbs = bse.extract_heartbeats(signal=lead,
+                                 rpeaks=r_locs,
+                                 sampling_rate=100,
+                                 before=0.2,
                                  after=0.4)[0]
     return hbs
 
+
 def plot_heartbeats(hbs, diff_plots=False):
-    '''Plot heartbeats from a single ECG lead. If diff_plots is False, 
-    plot all heartbeats on the same plot, else plot many subplots'''
+    """Plot heartbeats from a single ECG lead. If diff_plots is False,
+    plot all heartbeats on the same plot, else plot many subplots"""
     if diff_plots:
-        fig, ax =  plt.subplots(len(hbs), 1)
+        fig, ax = plt.subplots(len(hbs), 1)
         for i, hb in enumerate(hbs):
             x = np.arange(0, len(hb))
             ax[i].plot(x, hb)
-        ax.set_title('Number of hearbeats: {}'.format(len(hbs)))
+        ax.set_title('Number of heartbeats: {}'.format(len(hbs)))
         plt.show()
     else:
         fig, ax = plt.subplots()
         for i, hb in enumerate(hbs):
             x = np.arange(0, len(hb))
             ax.plot(x, hb)
-        ax.set_title('Number of hearbeats: {}'.format(len(hbs)))
+        ax.set_title('Number of heartbeats: {}'.format(len(hbs)))
         plt.show()
