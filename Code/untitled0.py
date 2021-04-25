@@ -25,8 +25,6 @@ def wave_deconstruct(hb):
         for i in range(5):
             wave_params.append((0, 0, 0, 0, 0))
             
-            # Update the fifth wave
-
             wave_params[i] = FMM(hb - W.sum(axis=1))
             W[:, i] = sim_hb(wave_params[i], t)
             
