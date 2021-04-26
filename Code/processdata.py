@@ -9,7 +9,7 @@ from sklearn.decomposition import PCA
 from scipy.signal import resample
 
 # filtering - remove baseline wander + bandpass filter (butterworth)
-def filter(ECGdata,samplingrate=100, remove_wandering=True, bandpass=True):
+def filter(ECGdata,samplingrate=100, remove_wandering=False, bandpass=True):
     if remove_wandering==True:
         ECG1 = hp.filtering.remove_baseline_wander(ECGdata,sample_rate=samplingrate,cutoff=0.03)
     else:

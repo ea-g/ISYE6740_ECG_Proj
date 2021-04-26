@@ -2,7 +2,7 @@
 """
 Created on Fri Mar 26 13:18:48 2021
 
-@author: phumt, eric
+@author: phumt, eric, ojas
 """
 
 import numpy as np
@@ -14,6 +14,7 @@ from sklearn.decomposition import PCA
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.multiclass import OneVsRestClassifier
+from processdata import filter
 
 output_folder = os.path.abspath('..\Output')
 
@@ -140,3 +141,18 @@ def plot_heartbeats(hbs, diff_plots=False):
             ax.plot(x, hb)
         ax.set_title('Number of heartbeats: {}'.format(len(hbs)))
         plt.show()
+
+
+def filter_all(ecg_data, **kwargs):
+    """
+    Filters data matrix ecg_data using Ojas's filter function
+
+    Returns filtered data matrix of shape (m x time_points (1000) x leads (12))
+
+    **kwargs:
+
+    - samplingrate = 100
+    - remove_wandering = False (default)
+    - bandpass = True (default) : applies butterworth bandpass filter
+    """
+    return np.array([filter(ecg, **kwargs) for ecg in ecg_data])
