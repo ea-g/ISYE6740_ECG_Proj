@@ -95,7 +95,6 @@ def make_gridcv(classifier, multi_label=False, **kwargs):
                                  model_params[clf_key].items()}
             default_params.update(multilabel_params)
 
-
     else:
         pipe = make_pipeline(StandardScaler(), PCA(), classifier)
         # update parameters with model's parameters
@@ -151,7 +150,7 @@ def filter_all(ecg_data, **kwargs):
 
     **kwargs:
 
-    - samplingrate = 100
+    - samplingrate = 100 (default)
     - remove_wandering = False (default)
     - bandpass = True (default) : applies butterworth bandpass filter
     """
