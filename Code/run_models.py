@@ -58,7 +58,13 @@ models = [SGDClassifier(max_iter=2000), LogisticRegression(max_iter=1000), Gauss
           AdaBoostClassifier()]
 
 # trials
-raw_MR_meta = model_wrapper(models[4:5], X_train_metmr, get_data.y_train_multi, cat=['sex'], prefix='raw-MR-meta',
+raw_MR_meta = model_wrapper(models[2:5], X_train_metmr, get_data.y_train_multi, cat=['sex'], prefix='raw-MR-meta',
+                            scoring="roc_auc_ovr", n_jobs=3)
+
+raw_wv_meta = model_wrapper(models[2:5], X_train_metwv, get_data.y_train_multi, cat=['sex'], prefix='raw-wv-meta',
+                            scoring="roc_auc_ovr", n_jobs=3)
+
+raw_MR = model_wrapper(models[2:5], X_train_mr, get_data.y_train_multi, prefix='raw-MR',
                             scoring="roc_auc_ovr", n_jobs=3)
 
 #test = gridcv_all(SGDClassifier(max_iter=2000), X_train_metmr.columns, categorical=['sex'])
