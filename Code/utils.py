@@ -61,7 +61,6 @@ model_params = {'svc': {'svc__C': np.logspace(-3, 1, 5), 'svc__kernel': ['rbf'],
                 'ridgeclassifier': {'ridgeclassifier__alpha': np.logspace(-2, 2, 5)},
                 'adaboostclassifier': {'adaboostclassifier__n_estimators': [50, 100]}}
 
-
 def make_gridcv(classifier, multi_label=False, **kwargs):
     """
     Given an sklearn classifier (e.g. SVC()), builds a pipeline and parameter grid based on model_params dictionary and
@@ -199,7 +198,7 @@ def gridcv_all(clf, column_names, categorical=None, **kwargs):
         pipe = make_pipeline(preprocessing, OneVsRestClassifier(clf))
 
         # default parameters
-        default_params = {'preprocessing__num__pca': ['passthrough', PCA(.80, svd_solver='full'),
+        default_params = {'columntransformer__num__pca': ['passthrough', PCA(.80, svd_solver='full'),
                                                       PCA(.90, svd_solver='full'), PCA(.95, svd_solver='full')]}
 
     else:
@@ -209,7 +208,7 @@ def gridcv_all(clf, column_names, categorical=None, **kwargs):
         pipe = make_pipeline(preprocessing, OneVsRestClassifier(clf))
 
         # default parameters
-        default_params = {'preprocessing__pca': ['passthrough', PCA(.80, svd_solver='full'),
+        default_params = {'pipeline__pca': ['passthrough', PCA(.80, svd_solver='full'),
                                                       PCA(.90, svd_solver='full'), PCA(.95, svd_solver='full')]}
 
     clf_key = str(type(clf)).split('.')[-1][:-2].lower()
