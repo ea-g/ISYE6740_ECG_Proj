@@ -9,6 +9,7 @@ import numpy as np
 import os
 import matplotlib.pyplot as plt
 import biosppy.signals.ecg as bse
+from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import make_pipeline
 from sklearn.decomposition import PCA
 from sklearn.model_selection import GridSearchCV
@@ -155,3 +156,57 @@ def filter_all(ecg_data, **kwargs):
     - bandpass = True (default) : applies butterworth bandpass filter
     """
     return np.array([filter(ecg, **kwargs) for ecg in ecg_data])
+
+
+def gridcv_all(clf, column_names, categorical=None,  **kwargs):
+    """
+    Prepares a GridSearchCV object for input data with ALL features (including categorical)
+    Input data must be a dataframe when fitting!
+
+    *args:
+    - clf:
+        sklearn classifier to use
+    - column_names:
+        list, set, pandas object of column names of input data
+    - categorical:
+        list of columns containing categorical data
+        default: None (assumes all columns numeric)
+
+    **kwargs from GridSearchCV can be passed in as well
+    Useful kwargs:
+        - scoring = 'roc_auc_ovr' (makes scoring based on roc_auc for onevsrest multilabel classification)
+        - n_jobs = int (runs jobs in parallel processes, maybe speeding things up but be careful and check docs!)
+
+    for available scoring metrics see:
+    https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
+    """
+
+    if categorical:
+        numeric_features = list(set(column_names) - set(categorical))
+
+    else:
+        numeric_features = list(column_names)
+
+    # transformers for different data types
+    numeric_transformer = make_pipeline(StandardScaler(), PCA())
+    categorical_transformer = make_pipeline('passthrough')
+
+    # combining the above
+    preprocessing = ColumnTransformer(transformers=[('num', numeric_transformer, numeric_features),
+                                                    ('cat', categorical_transformer, categorical)])
+
+    # combine preprocessing and classifier
+    pipe = make_pipeline(preprocessing, OneVsRestClassifier(clf))
+
+    # default parameters
+    default_params = {'preprocessing__num__pca': ['passthrough', PCA(.80, svd_solver='full'),
+                                                  PCA(.90, svd_solver='full'), PCA(.95, svd_solver='full')]}
+
+    clf_key = str(type(clf)).split('.')[-1][:-2].lower()
+
+    # update parameters with those for chosen model
+    multilabel_params = {'onevsrestclassifier__estimator__{}'.format(i.split('__')[-1]): j for i, j in
+                         model_params[clf_key].items()}
+    default_params.update(multilabel_params)
+
+    return GridSearchCV(pipe, default_params, **kwargs)
