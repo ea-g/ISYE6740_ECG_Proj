@@ -213,10 +213,11 @@ def gridcv_all(clf, column_names, categorical=None, **kwargs):
 
     clf_key = str(type(clf)).split('.')[-1][:-2].lower()
 
-    # update parameters with those for chosen model
-    multilabel_params = {'onevsrestclassifier__estimator__{}'.format(i.split('__')[-1]): j for i, j in
-                         model_params[clf_key].items()}
-    default_params.update(multilabel_params)
+    if clf_key in model_params.keys():
+        # update parameters with those for chosen model
+        multilabel_params = {'onevsrestclassifier__estimator__{}'.format(i.split('__')[-1]): j for i, j in
+                             model_params[clf_key].items()}
+        default_params.update(multilabel_params)
 
     return GridSearchCV(pipe, default_params, **kwargs)
 
