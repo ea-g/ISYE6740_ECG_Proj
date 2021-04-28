@@ -14,7 +14,7 @@ from sklearn.decomposition import PCA
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.multiclass import OneVsRestClassifier
-from processdata import filter
+from processdata import filter, extract_features
 
 output_folder = os.path.abspath('..\Output')
 
@@ -172,3 +172,5 @@ def extract_all_features(ecgdata, **kwargs):
     
     """
     return np.array([list(extract_features(ecgdata[i,:,:],kwargs)[0].values()) for i in range(ecgdata.shape[0])])
+
+
