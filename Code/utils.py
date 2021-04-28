@@ -158,6 +158,7 @@ def filter_all(ecg_data, **kwargs):
     - bandpass = True (default) : applies butterworth bandpass filter
     """
     return np.array([filter(ecg, **kwargs) for ecg in ecg_data])
+<<<<<<< HEAD
 
 
 def gridcv_all(clf, column_names, categorical=None, **kwargs):
@@ -271,3 +272,5 @@ def extract_all_features(ecgdata, **kwargs):
 #     for key, m in fit_models.items():
 #         report = classification_report(y_val, m.predict(x_val))
 #         val_reports['key'] = report
+=======
+>>>>>>> parent of f5be7d7e (Update utils.py)
