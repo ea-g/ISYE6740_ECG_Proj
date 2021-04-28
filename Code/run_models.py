@@ -57,7 +57,7 @@ models = [SGDClassifier(max_iter=2000), LogisticRegression(max_iter=1000), Gauss
           KNeighborsClassifier(), RandomForestClassifier(), RidgeClassifier(),
           AdaBoostClassifier()]
 
-# trial with AdaBoost
+# trial with Randomforest
 raw_MR_meta = model_wrapper(models[4:5], X_train_metmr, get_data.y_train_multi, cat=['sex'], prefix='raw-MR-meta',
                             scoring="roc_auc_ovr", n_jobs=3)
 

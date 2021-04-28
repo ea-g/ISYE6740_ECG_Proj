@@ -17,7 +17,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.metrics import classification_report
 from collections import defaultdict
-from processdata import filter
+from processdata import filter, extract_features
 from joblib import dump
 
 output_folder = os.path.abspath('..\Output')
@@ -249,6 +249,23 @@ def model_wrapper(estimator_list, x_train, y_train, cat=None, prefix='save-file-
 
     return fit_models
 
+
+def extract_all_features(ecgdata, **kwargs):
+    """
+    Extract ecg descriptors (extract_features function)
+    -- Note this function performs PCA prior to feature extraction
+
+    Returns a n x 6 array (n patient ECGs, 6 descriptors)
+
+    **kwargs:
+
+    samplingrate=100
+    expandtrace=True
+    pca=True
+    lead=2
+
+    """
+    return np.array([list(extract_features(ecgdata[i, :, :], kwargs)[0].values()) for i in range(ecgdata.shape[0])])
 # will add this stuff to separate function for a classification report wrapper to load our models from saves instead
 # if report:
 #     for key, m in fit_models.items():
