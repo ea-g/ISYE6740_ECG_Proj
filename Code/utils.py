@@ -15,7 +15,10 @@ from sklearn.decomposition import PCA
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.multiclass import OneVsRestClassifier
+from sklearn.metrics import classification_report
+from collections import defaultdict
 from processdata import filter
+from joblib import dump
 
 output_folder = os.path.abspath('..\Output')
 
@@ -158,7 +161,7 @@ def filter_all(ecg_data, **kwargs):
     return np.array([filter(ecg, **kwargs) for ecg in ecg_data])
 
 
-def gridcv_all(clf, column_names, categorical=None,  **kwargs):
+def gridcv_all(clf, column_names, categorical=None, **kwargs):
     """
     Prepares a GridSearchCV object for input data with ALL features (including categorical)
     Input data must be a dataframe when fitting!
@@ -184,23 +187,30 @@ def gridcv_all(clf, column_names, categorical=None,  **kwargs):
     if categorical:
         numeric_features = list(set(column_names) - set(categorical))
 
+        # transformers for different data types
+        numeric_transformer = make_pipeline(StandardScaler(), PCA())
+        categorical_transformer = make_pipeline('passthrough')
+
+        # combining the above
+        preprocessing = ColumnTransformer(transformers=[('num', numeric_transformer, numeric_features),
+                                                        ('cat', categorical_transformer, categorical)])
+
+        # combine preprocessing and classifier
+        pipe = make_pipeline(preprocessing, OneVsRestClassifier(clf))
+
+        # default parameters
+        default_params = {'preprocessing__num__pca': ['passthrough', PCA(.80, svd_solver='full'),
+                                                      PCA(.90, svd_solver='full'), PCA(.95, svd_solver='full')]}
+
     else:
-        numeric_features = list(column_names)
+        preprocessing = make_pipeline(StandardScaler(), PCA())
 
-    # transformers for different data types
-    numeric_transformer = make_pipeline(StandardScaler(), PCA())
-    categorical_transformer = make_pipeline('passthrough')
+        # combine preprocessing and classifier
+        pipe = make_pipeline(preprocessing, OneVsRestClassifier(clf))
 
-    # combining the above
-    preprocessing = ColumnTransformer(transformers=[('num', numeric_transformer, numeric_features),
-                                                    ('cat', categorical_transformer, categorical)])
-
-    # combine preprocessing and classifier
-    pipe = make_pipeline(preprocessing, OneVsRestClassifier(clf))
-
-    # default parameters
-    default_params = {'preprocessing__num__pca': ['passthrough', PCA(.80, svd_solver='full'),
-                                                  PCA(.90, svd_solver='full'), PCA(.95, svd_solver='full')]}
+        # default parameters
+        default_params = {'preprocessing__pca': ['passthrough', PCA(.80, svd_solver='full'),
+                                                      PCA(.90, svd_solver='full'), PCA(.95, svd_solver='full')]}
 
     clf_key = str(type(clf)).split('.')[-1][:-2].lower()
 
@@ -210,3 +220,38 @@ def gridcv_all(clf, column_names, categorical=None,  **kwargs):
     default_params.update(multilabel_params)
 
     return GridSearchCV(pipe, default_params, **kwargs)
+
+
+def model_wrapper(estimator_list, x_train, y_train, cat=None, prefix='save-file-label', **kwargs):
+    """
+    Builds, fits, and saves models in estimator_list with gridcv_all function
+
+    *args
+    - estimator_list: list of sklearn classification model objects
+    - x_train: dataframe of training data
+    - y_train: dataframe of target classes for training data
+    - cat: list of categorical features (column labels in dataframe)
+    - prefix: string prefix for output file
+
+    **kwargs from GridSearchCV
+    Useful kwargs:
+        - scoring = 'roc_auc_ovr' (makes scoring based on roc_auc for onevsrest multilabel classification)
+        - n_jobs = int (runs jobs in parallel processes, maybe speeding things up but be careful and check docs!)
+
+    for available scoring metrics see:
+    https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
+    """
+
+    fit_models = defaultdict(GridSearchCV)
+    for model in estimator_list:
+        label = str(type(model)).split('.')[-1][:-2]
+        fit_models[label] = gridcv_all(model, x_train.columns, categorical=cat, **kwargs).fit(x_train, y_train)
+        dump(fit_models[label], os.path.join(output_folder, '{}_{}.joblib'.format(prefix, label)))
+
+    return fit_models
+
+# will add this stuff to separate function for a classification report wrapper to load our models from saves instead
+# if report:
+#     for key, m in fit_models.items():
+#         report = classification_report(y_val, m.predict(x_val))
+#         val_reports['key'] = report
