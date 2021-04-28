@@ -155,3 +155,20 @@ def filter_all(ecg_data, **kwargs):
     - bandpass = True (default) : applies butterworth bandpass filter
     """
     return np.array([filter(ecg, **kwargs) for ecg in ecg_data])
+
+def extract_all_features(ecgdata, **kwargs):
+    """
+    Extract ecg descriptors (extract_features function)
+    -- Note this function performs PCA prior to feature extraction
+    
+    Returns a n x 6 array (n patient ECGs, 6 descriptors)
+    
+    **kwargs:
+        
+    samplingrate=100
+    expandtrace=True
+    pca=True
+    lead=2
+    
+    """
+    return np.array([list(extract_features(ecgdata[i,:,:],kwargs)[0].values()) for i in range(ecgdata.shape[0])])
