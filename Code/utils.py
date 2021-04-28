@@ -56,7 +56,7 @@ model_params = {'svc': {'svc__C': np.logspace(-3, 1, 5), 'svc__kernel': ['rbf'],
                 'sgdclassifier': {'sgdclassifier__alpha': np.logspace(-4, -1, 5)},
                 'linearsvc': {'linearsvc__C': np.logspace(-3, 1, 5)},
                 'logisticregression': {'logisticregression__C': np.logspace(-3, 1, 5)},
-                'kneighborsclassifier': {'kneighborsclassifier__k': [1, 5, 7]},
+                'kneighborsclassifier': {'kneighborsclassifier__n_neighbors': [1, 5, 7]},
                 'randomforestclassifier': {'randomforestclassifier__n_estimators': [50, 100, 200]},
                 'ridgeclassifier': {'ridgeclassifier__alpha': np.logspace(-2, 2, 5)},
                 'adaboostclassifier': {'adaboostclassifier__n_estimators': [50, 100]}}
