@@ -4,7 +4,7 @@ Created on Fri Mar 26 13:18:48 2021
 
 @author: phumt, eric, ojas
 """
-
+from pandas import DataFrame
 import numpy as np
 import os
 import matplotlib.pyplot as plt
@@ -256,7 +256,7 @@ def extract_all_features(ecgdata, **kwargs):
     Extract ecg descriptors (extract_features function)
     -- Note this function performs PCA prior to feature extraction
 
-    Returns a n x 6 array (n patient ECGs, 6 descriptors)
+    Returns a DataFrame of shape n x 6 (n patient ECGs, 6 descriptors)
 
     **kwargs:
 
@@ -266,7 +266,9 @@ def extract_all_features(ecgdata, **kwargs):
     lead=2
 
     """
-    return np.array([list(extract_features(ecgdata[i, :, :], kwargs)[0].values()) for i in range(ecgdata.shape[0])])
+    cols = ['heartrate', 'RRinterval', 'RRsd', 'pNN20', 'pNN50', 'RRmad']
+    dat = np.array([list(extract_features(ecgdata[i, :, :], kwargs)[0].values()) for i in range(ecgdata.shape[0])])
+    return DataFrame(data=dat, columns=cols)
 
 # will add this stuff to separate function for a classification report wrapper to load our models from saves instead
 # if report:
