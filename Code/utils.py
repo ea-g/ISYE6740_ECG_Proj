@@ -4,17 +4,21 @@ Created on Fri Mar 26 13:18:48 2021
 
 @author: phumt, eric, ojas
 """
-
+from pandas import DataFrame
 import numpy as np
 import os
 import matplotlib.pyplot as plt
 import biosppy.signals.ecg as bse
+from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import make_pipeline
 from sklearn.decomposition import PCA
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import StandardScaler
 from sklearn.multiclass import OneVsRestClassifier
+from sklearn.metrics import classification_report
+from collections import defaultdict
 from processdata import filter, extract_features
+from joblib import dump
 
 output_folder = os.path.abspath('..\Output')
 
@@ -52,11 +56,10 @@ model_params = {'svc': {'svc__C': np.logspace(-3, 1, 5), 'svc__kernel': ['rbf'],
                 'sgdclassifier': {'sgdclassifier__alpha': np.logspace(-4, -1, 5)},
                 'linearsvc': {'linearsvc__C': np.logspace(-3, 1, 5)},
                 'logisticregression': {'logisticregression__C': np.logspace(-3, 1, 5)},
-                'kneighborsclassifier': {'kneighborsclassifier__k': [1, 5, 7]},
+                'kneighborsclassifier': {'kneighborsclassifier__n_neighbors': [1, 5, 7]},
                 'randomforestclassifier': {'randomforestclassifier__n_estimators': [50, 100, 200]},
                 'ridgeclassifier': {'ridgeclassifier__alpha': np.logspace(-2, 2, 5)},
                 'adaboostclassifier': {'adaboostclassifier__n_estimators': [50, 100]}}
-
 
 def make_gridcv(classifier, multi_label=False, **kwargs):
     """
@@ -156,21 +159,119 @@ def filter_all(ecg_data, **kwargs):
     """
     return np.array([filter(ecg, **kwargs) for ecg in ecg_data])
 
+
+def gridcv_all(clf, column_names, categorical=None, **kwargs):
+    """
+    Prepares a GridSearchCV object for input data with ALL features (including categorical)
+    Input data must be a dataframe when fitting!
+
+    *args:
+    - clf:
+        sklearn classifier to use
+    - column_names:
+        list, set, pandas object of column names of input data
+    - categorical:
+        list of columns containing categorical data
+        default: None (assumes all columns numeric)
+
+    **kwargs from GridSearchCV can be passed in as well
+    Useful kwargs:
+        - scoring = 'roc_auc_ovr' (makes scoring based on roc_auc for onevsrest multilabel classification)
+        - n_jobs = int (runs jobs in parallel processes, maybe speeding things up but be careful and check docs!)
+
+    for available scoring metrics see:
+    https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
+    """
+
+    if categorical:
+        numeric_features = list(set(column_names) - set(categorical))
+
+        # transformers for different data types
+        numeric_transformer = make_pipeline(StandardScaler(), PCA())
+        categorical_transformer = make_pipeline('passthrough')
+
+        # combining the above
+        preprocessing = ColumnTransformer(transformers=[('num', numeric_transformer, numeric_features),
+                                                        ('cat', categorical_transformer, categorical)])
+
+        # combine preprocessing and classifier
+        pipe = make_pipeline(preprocessing, OneVsRestClassifier(clf))
+
+        # default parameters
+        default_params = {'columntransformer__num__pca': ['passthrough', PCA(.80, svd_solver='full'),
+                                                      PCA(.90, svd_solver='full'), PCA(.95, svd_solver='full')]}
+
+    else:
+        preprocessing = make_pipeline(StandardScaler(), PCA())
+
+        # combine preprocessing and classifier
+        pipe = make_pipeline(preprocessing, OneVsRestClassifier(clf))
+
+        # default parameters
+        default_params = {'pipeline__pca': ['passthrough', PCA(.80, svd_solver='full'),
+                                                      PCA(.90, svd_solver='full'), PCA(.95, svd_solver='full')]}
+
+    clf_key = str(type(clf)).split('.')[-1][:-2].lower()
+
+    if clf_key in model_params.keys():
+        # update parameters with those for chosen model
+        multilabel_params = {'onevsrestclassifier__estimator__{}'.format(i.split('__')[-1]): j for i, j in
+                             model_params[clf_key].items()}
+        default_params.update(multilabel_params)
+
+    return GridSearchCV(pipe, default_params, **kwargs)
+
+
+def model_wrapper(estimator_list, x_train, y_train, cat=None, prefix='save-file-label', **kwargs):
+    """
+    Builds, fits, and saves models in estimator_list with gridcv_all function
+
+    *args
+    - estimator_list: list of sklearn classification model objects
+    - x_train: dataframe of training data
+    - y_train: dataframe of target classes for training data
+    - cat: list of categorical features (column labels in dataframe)
+    - prefix: string prefix for output file
+
+    **kwargs from GridSearchCV
+    Useful kwargs:
+        - scoring = 'roc_auc_ovr' (makes scoring based on roc_auc for onevsrest multilabel classification)
+        - n_jobs = int (runs jobs in parallel processes, maybe speeding things up but be careful and check docs!)
+
+    for available scoring metrics see:
+    https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
+    """
+
+    fit_models = defaultdict(GridSearchCV)
+    for model in estimator_list:
+        label = str(type(model)).split('.')[-1][:-2]
+        fit_models[label] = gridcv_all(model, x_train.columns, categorical=cat, **kwargs).fit(x_train, y_train)
+        dump(fit_models[label], os.path.join(output_folder, '{}_{}.joblib'.format(prefix, label)))
+
+    return fit_models
+
+
 def extract_all_features(ecgdata, **kwargs):
     """
     Extract ecg descriptors (extract_features function)
     -- Note this function performs PCA prior to feature extraction
-    
-    Returns a n x 6 array (n patient ECGs, 6 descriptors)
-    
+
+    Returns a DataFrame of shape n x 6 (n patient ECGs, 6 descriptors)
+
     **kwargs:
-        
+
     samplingrate=100
     expandtrace=True
     pca=True
     lead=2
-    
+
     """
-    return np.array([list(extract_features(ecgdata[i,:,:],kwargs)[0].values()) for i in range(ecgdata.shape[0])])
+    cols = ['heartrate', 'RRinterval', 'RRsd', 'pNN20', 'pNN50', 'RRmad']
+    dat = np.array([list(extract_features(ecgdata[i, :, :], kwargs)[0].values()) for i in range(ecgdata.shape[0])])
+    return DataFrame(data=dat, columns=cols)
 
-
+# will add this stuff to separate function for a classification report wrapper to load our models from saves instead
+# if report:
+#     for key, m in fit_models.items():
+#         report = classification_report(y_val, m.predict(x_val))
+#         val_reports['key'] = report

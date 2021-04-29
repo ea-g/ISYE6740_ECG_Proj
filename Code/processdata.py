@@ -35,7 +35,7 @@ def plotECG(ECGdata, samplingrate=100):
 def extract_features(ECGdata, samplingrate=100, expandtrace=True, pca=True, lead=2):
     if pca==True:
         clf = PCA(n_components=1).fit(ECGdata)
-        ECG_lean = clf.fit_transform(ECGdata)
+        ECG_lean = clf.transform(ECGdata)
     else:
         nrows,ncols = ECGdata.shape
         if ncols >= nrows:

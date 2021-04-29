@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MultiLabelBinarizer
 
 # set this to retrieve all data (set as False) or only fold 9 (set as True)
-reduced = True
+reduced = False
 
 data_path = os.path.abspath(r'..\Data')
 sampling_rate = 100
@@ -77,15 +77,12 @@ if reduced:
     X_test_meta.reset_index(drop=True, inplace=True)
 
 else:
-    # train, validation, test splits for full data
-    X_test = X[Y.strat_fold == 10]
-    X_val = X[Y.strat_fold == 9]
-    X_train = X[Y.strat_fold.isin(range(1, 9))]
+    # train, test splits for full data
+    X_val = X[Y.strat_fold == 10]
+    X_train = X[~(Y.strat_fold == 10)]
 
-    y_test = y_multi[Y.strat_fold == 10]
-    y_val = y_multi[Y.strat_fold == 9]
-    y_train = y_multi[Y.strat_fold.isin(range(1, 9))]
+    y_val = y_multi[Y.strat_fold == 10]
+    y_train = y_multi[~(Y.strat_fold == 10)]
 
-    X_test_meta = Y[Y.strat_fold == 10][['age', 'sex']].reset_index(drop=True)
-    X_val_meta = Y[Y.strat_fold == 9][['age', 'sex']].reset_index(drop=True)
-    X_train_meta = Y[Y.strat_fold.isin(range(1, 9))][['age', 'sex']].reset_index(drop=True)
+    X_val_meta = Y[Y.strat_fold == 10][['age', 'sex']].reset_index(drop=True)
+    X_train_meta = Y[~(Y.strat_fold == 10)][['age', 'sex']].reset_index(drop=True)
