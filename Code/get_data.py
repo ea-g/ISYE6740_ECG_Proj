@@ -7,7 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MultiLabelBinarizer
 
 # set this to retrieve all data (set as False) or only fold 9 (set as True)
-reduced = True
+reduced = False
 
 data_path = os.path.abspath(r'..\Data')
 sampling_rate = 100
