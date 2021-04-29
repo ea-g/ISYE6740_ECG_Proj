@@ -26,14 +26,14 @@ if to_filter:
     x_train = filter_all(x_train)
     x_val = filter_all(x_val)
 
-    # extract Dr.Ojas features
-    X_train_ecg = extract_all_features(x_train)
-    X_val_ecg = extract_all_features(x_val)
-
-else:
-    # filter only for ECG descriptors
-    X_train_ecg = extract_all_features(filter_all(x_train))
-    X_val_ecg = extract_all_features(filter_all(x_val))
+#     # # extract Dr.Ojas features
+#     # X_train_ecg = extract_all_features(x_train)
+#     # X_val_ecg = extract_all_features(x_val)
+#
+# else:
+#     # filter only for ECG descriptors
+#     X_train_ecg = extract_all_features(filter_all(x_train))
+#     X_val_ecg = extract_all_features(filter_all(x_val))
 
 # extract features with wavelet transform
 X_train_wv = pd.DataFrame(data=get_ecg_features(x_train))
@@ -55,7 +55,7 @@ X_train_wv.columns = ['f_' + str(i) for i in X_train_wv.columns]
 X_val_wv.columns = ['f_' + str(i) for i in X_val_wv.columns]
 
 feature_data = {'MR': {'train': X_train_mr, 'test': X_val_mr}, 'wavelet': {'train': X_train_wv, 'test': X_val_mr},
-                'meta': {'train': x_train_meta, 'test': x_val_meta}, 'ecg': {'train': X_train_ecg, 'test': X_val_ecg}}
+                'meta': {'train': x_train_meta, 'test': x_val_meta}}
 
 
 def feature_mix(to_mix):
@@ -82,13 +82,13 @@ models = [SGDClassifier(max_iter=2000), LogisticRegression(max_iter=1000), Gauss
           AdaBoostClassifier()]
 
 # set up models below here ============================================================================================
-mixes = [['MR', 'meta', 'ecg'], ['wavelet', 'meta', 'ecg']]
+mixes = [['MR', 'meta'], ['wavelet', 'meta']]
 fit_models = {}
 
 for mix in mixes:
     X_train, X_test = feature_mix(mix)
     fit_models['-'.join(mix)] = model_wrapper(models, X_train, get_data.y_train, cat=['sex'],
-                                              prefix='raw-' + '-'.join(mix), scoring='auc_roc_ovr',
+                                              prefix='raw01-' + '-'.join(mix), scoring='auc_roc_ovr',
                                               n_jobs=-2)
 
 # # concat patient meta-data features with each of the above
