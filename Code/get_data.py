@@ -86,9 +86,9 @@ else:
     X_train_meta, X_test_meta = train_test_split(Y[['age', 'sex']], test_size=.20, random_state=5)
 
     # save targets (only once)
-    out_path = os.path.join(output_folder, 'y_')
-    np.save(out_path + 'train', y_train_multi)
-    np.save(out_path + 'test', y_test_multi)
+    # out_path = os.path.join(output_folder, 'y_')
+    # np.save(out_path + 'train', y_train_multi)
+    # np.save(out_path + 'test', y_test_multi)
 
     X_train_meta.reset_index(drop=True, inplace=True)
     X_test_meta.reset_index(drop=True, inplace=True)
