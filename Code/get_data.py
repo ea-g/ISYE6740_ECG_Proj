@@ -65,21 +65,22 @@ Y = Y[~Y.age.isna()]
 # reset index
 Y.reset_index(inplace=True)
 
-# load in ecg_descriptors
-ecg_des = pd.read_csv(os.path.join(data_path, 'ecg_descriptors.csv'), index_col=0)
+if not reduced:
+    # load in ecg_descriptors
+    ecg_des = pd.read_csv(os.path.join(data_path, 'ecg_descriptors.csv'), index_col=0)
 
-# drop points with missing data
-Y = Y[~ecg_des.heartrate.isna()]
-X = X[~ecg_des.heartrate.isna()]
-ecg_des = ecg_des[~ecg_des.heartrate.isna()]
-Y = Y[~ecg_des.pNN20.isna()]
-X = X[~ecg_des.pNN20.isna()]
-ecg_des = ecg_des[~ecg_des.pNN20.isna()]
+    # drop points with missing data
+    Y = Y[~ecg_des.heartrate.isna()]
+    X = X[~ecg_des.heartrate.isna()]
+    ecg_des = ecg_des[~ecg_des.heartrate.isna()]
+    Y = Y[~ecg_des.pNN20.isna()]
+    X = X[~ecg_des.pNN20.isna()]
+    ecg_des = ecg_des[~ecg_des.pNN20.isna()]
 
-# drop points with high heart rate
-Y = Y[ecg_des.heartrate < 300].reset_index(drop=True)
-X = X[ecg_des.heartrate < 300]
-ecg_des = ecg_des[ecg_des.heartrate < 300].reset_index(drop=True)
+    # drop points with high heart rate
+    Y = Y[ecg_des.heartrate < 300].reset_index(drop=True)
+    X = X[ecg_des.heartrate < 300]
+    ecg_des = ecg_des[ecg_des.heartrate < 300].reset_index(drop=True)
 
 # one-hot code diagnostic superclasses for multilabel problem
 hot = MultiLabelBinarizer()
@@ -92,19 +93,22 @@ if reduced:
 
     # Split data into train and test
     y_train, y_test = train_test_split(y, test_size=.20, random_state=5)
+    X_train_meta, X_test_meta = train_test_split(Y[['age', 'sex']], test_size=.20, random_state=5)
 
+else:
+    X_train_meta, X_test_meta, X_train_ecg, X_test_ecg = train_test_split(Y[['age', 'sex']], ecg_des,
+                                                                          test_size=.20, random_state=5)
+    X_train_ecg.reset_index(drop=True, inplace=True)
+    X_test_ecg.reset_index(drop=True, inplace=True)
 
 # train, test splits for data and multilabel response, meta data, ecg descriptors
 X_train, X_test, y_train_multi, y_test_multi = train_test_split(X, y_multi, test_size=.20, random_state=5)
-X_train_meta, X_test_meta, X_train_ecg, X_test_ecg = train_test_split(Y[['age', 'sex']], ecg_des,
-                                                                      test_size=.20, random_state=5)
+
 
 # save targets (only once)
-out_path = os.path.join(data_path, 'y_')
-np.save(out_path + 'train-final', y_train_multi)
-np.save(out_path + 'test-final', y_test_multi)
-X_train_ecg.reset_index(drop=True, inplace=True)
-X_test_ecg.reset_index(drop=True, inplace=True)
+# out_path = os.path.join(data_path, 'y_')
+# np.save(out_path + 'train-final', y_train_multi)
+# np.save(out_path + 'test-final', y_test_multi)
 X_train_meta.reset_index(drop=True, inplace=True)
 X_test_meta.reset_index(drop=True, inplace=True)
 
