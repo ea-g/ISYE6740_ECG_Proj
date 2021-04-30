@@ -73,16 +73,16 @@ models = [SGDClassifier(loss='log', max_iter=4000), SGDClassifier(max_iter=4000)
           AdaBoostClassifier()]
 
 # set up models below here ============================================================================================
-mixes = [['MR', 'meta', 'ecg'], ['wavelet', 'meta', 'ecg']]
+mixes = [['MR', 'meta', 'ecg']], ['wavelet', 'meta', 'ecg']]
 fit_models = {}
-pref = 'raw02-'
+pref = 'raw01-'
 
 for mix in mixes:
     X_train, X_test = feature_mix(mix)
     out_loc = os.path.join(get_data.data_path, pref + '-'.join(mix))
-    X_train.to_hdf(out_loc + '-train.h5', key='train', mode='w')
-    X_test.to_hdf(out_loc + '-test.h5', key='test', mode='w')
-    fit_models['-'.join(mix)] = model_wrapper(models, X_train, get_data.y_train_multi, cat=['sex'],
+    # X_train.to_hdf(out_loc + '-train.h5', key='train', mode='w')
+    # X_test.to_hdf(out_loc + '-test.h5', key='test', mode='w')
+    fit_models['-'.join(mix)] = model_wrapper(models[1:2], X_train, get_data.y_train_multi, cat=['sex'],
                                               prefix=pref + '-'.join(mix), scoring=ham_loss,
                                               n_jobs=-3, cv=5)
 
