@@ -6,21 +6,16 @@ from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 from wavelet_features import get_ecg_features
-from utils import matrix_2_df, model_wrapper, filter_all, extract_all_features
+from utils import matrix_2_df, model_wrapper, filter_all, extract_all_features, output_folder
+import os
 
 to_filter = False
 
-if get_data.reduced:
-    x_train = get_data.X_train
-    x_train_meta = get_data.X_train_meta
-    x_val = get_data.X_test
-    x_val_meta = get_data.X_test_meta
-
-else:
-    x_train = get_data.X_train
-    x_train_meta = get_data.X_train_meta
-    x_val = get_data.X_val
-    x_val_meta = get_data.X_val_meta
+# load in data to local pointers
+x_train = get_data.X_train
+x_train_meta = get_data.X_train_meta
+x_val = get_data.X_test
+x_val_meta = get_data.X_test_meta
 
 if to_filter:
     x_train = filter_all(x_train)
@@ -84,12 +79,16 @@ models = [SGDClassifier(loss='log', max_iter=4000), GaussianNB(),
 # set up models below here ============================================================================================
 mixes = [['MR', 'meta'], ['wavelet', 'meta']]
 fit_models = {}
+pref = 'raw01-'
 
 for mix in mixes:
     X_train, X_test = feature_mix(mix)
-    fit_models['-'.join(mix)] = model_wrapper(models, X_train, get_data.y_train, cat=['sex'],
-                                              prefix='raw01-' + '-'.join(mix), scoring='roc_auc_ovr',
-                                              n_jobs=-2, cv=9)
+    out_loc = os.path.join(output_folder, pref + '-'.join(mix))
+    X_train.to_hdf(out_loc + '-train.h5', key='train', mode='w')
+    X_test.to_hdf(out_loc + '-test.h5', key='test', mode='w')
+    fit_models['-'.join(mix)] = model_wrapper(models, X_train, get_data.y_train_multi, cat=['sex'],
+                                              prefix=pref + '-'.join(mix), scoring='roc_auc_ovr',
+                                              n_jobs=-2, cv=5)
 
 # # concat patient meta-data features with each of the above
 # X_train_metmr = pd.concat([X_train_mr, x_train_meta], axis=1)

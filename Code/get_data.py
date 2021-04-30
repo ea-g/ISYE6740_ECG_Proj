@@ -5,6 +5,7 @@ import ast
 import os
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MultiLabelBinarizer
+from utils import output_folder
 
 # set this to retrieve all data (set as False) or only fold 9 (set as True)
 reduced = False
@@ -29,6 +30,9 @@ Y.scp_codes = Y.scp_codes.apply(lambda x: ast.literal_eval(x))
 # reduce data set to only the 9th fold if reduced
 if reduced:
     Y = Y[Y.strat_fold == 9]
+
+# reduce data to folds 9 and 10 only
+Y = Y[Y.strat_fold.isin([9, 10])]
 
 # Load raw signal data
 X = load_raw_data(Y, sampling_rate, data_path)
@@ -77,12 +81,15 @@ if reduced:
     X_test_meta.reset_index(drop=True, inplace=True)
 
 else:
-    # train, test splits for full data
-    X_val = X[Y.strat_fold == 10]
-    X_train = X[~(Y.strat_fold == 10)]
+    # train, test splits for full data (folds 9 and 10)
+    X_train, X_test, y_train_multi, y_test_multi = train_test_split(X, y_multi, test_size=.20, random_state=5)
+    X_train_meta, X_test_meta = train_test_split(Y[['age', 'sex']], test_size=.20, random_state=5)
 
-    y_val = y_multi[Y.strat_fold == 10]
-    y_train = y_multi[~(Y.strat_fold == 10)]
+    # save targets (only once)
+    out_path = os.path.join(output_folder, 'y_')
+    np.save(out_path + 'train', y_train_multi)
+    np.save(out_path + 'test', y_test_multi)
 
-    X_val_meta = Y[Y.strat_fold == 10][['age', 'sex']].reset_index(drop=True)
-    X_train_meta = Y[~(Y.strat_fold == 10)][['age', 'sex']].reset_index(drop=True)
+    X_train_meta.reset_index(drop=True, inplace=True)
+    X_test_meta.reset_index(drop=True, inplace=True)
+
