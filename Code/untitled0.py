@@ -10,6 +10,12 @@ def calc_R2(hb, hb_pred):
     denominator = np.sum( (hb - np.mean(hb_pred))**2 )
     return 1 - numerator/denominator
 
+def plotR2(R2):
+    x = np.arange(len(R2))
+    plt.plot(x, R2)
+    plt.xlabel('Number of iteration')
+    plt.ylabel('R2 Value')
+    plt.show()
 
 def wave_deconstruct(hb):
     t = np.linspace(0, 2*np.pi, len(hb), endpoint=True)
@@ -110,7 +116,11 @@ ax[1,0].plot(hb_pred2)
 ax[1,1].plot(W2)
 
 
-
-
 print(R21)
+plotR2(R21)
+
+
 print(R22)
+plotR2(R22)
+
+
