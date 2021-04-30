@@ -146,12 +146,12 @@ hb2 = np.array([-0.121, -0.09 , -0.076, -0.03 , -0.015, -0.016,  0.033,  0.033,
 
 #result = FMM(hb)
 
-t = np.linspace(0, 2*np.pi, len(hb), endpoint=True)
-hb_pred = sim_hb(result, t)
+t = np.linspace(0, 2*np.pi, len(hb1), endpoint=True)
+hb1_pred = sim_hb(result, t)
 
 fig, ax = plt.subplots()
-ax.plot(hb)
-ax.plot(hb_pred)
+ax.plot(hb1)
+ax.plot(hb1_pred)
 
 # 24, 438, 1180 look at the arythmia group
 
