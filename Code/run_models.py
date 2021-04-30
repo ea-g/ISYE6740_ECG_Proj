@@ -108,3 +108,9 @@ for mix in mixes:
 #                        scoring="roc_auc_ovr", n_jobs=3)
 
 # test = gridcv_all(SGDClassifier(max_iter=2000), X_train_metmr.columns, categorical=['sex'])
+
+# loaded_model = load(path)
+
+# y_pred = loaded_model.best_estimator_.predict_proba_(X_val_metmr)
+
+# classification_report(get_data.y_test_multi, y_pred)
