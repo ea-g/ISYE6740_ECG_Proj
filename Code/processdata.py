@@ -32,23 +32,31 @@ def plotECG(ECGdata, samplingrate=100):
 # extract ecg features
     
 # PROCESSING DATA with PCA and then HP for measures/features
-def extract_features(ECGdata, samplingrate=100, expandtrace=True, pca=True, lead=2):
-    if pca==True:
-        clf = PCA(n_components=1).fit(ECGdata)
-        ECG_lean = clf.transform(ECGdata)
-    else:
-        nrows,ncols = ECGdata.shape
-        if ncols >= nrows:
-            ECGdata = ECGdata.T
-        ECG_lean = ECGdata[:,lead]
-    if expandtrace==True:
-        resampled_signal = resample(ECG_lean, len(ECG_lean)*4)
-        workingdata, measure = hp.process(hp.scale_data(resampled_signal.ravel()), 100 * 4)
-    else:
-        workingdata, measure = hp.process(ECG_lean.ravel(), sample_rate=100)
+def extract_features(ECGdata, samplingrate=100, expandtrace=True, expandfactor = 4,pca=True, lead=2):
     
-    features = {'heartrate':measure['bpm'], 'RRinterval':measure['ibi'], 'RRsd': measure['sdnn'], 
-                'pNN20':measure['pnn20'], 'pNN50':measure['pnn50'],'RRmad': measure['hr_mad']}
+    try:
+        if pca==True:
+            clf = PCA(n_components=1).fit(ECGdata)
+            ECG_lean = clf.transform(ECGdata)
+        else:
+            nrows,ncols = ECGdata.shape
+            if ncols >= nrows:
+                ECGdata = ECGdata.T
+            ECG_lean = ECGdata[:,lead]
+        if expandtrace==True:
+            resampled_signal = resample(ECG_lean, len(ECG_lean)*expandfactor)
+            workingdata, measure = hp.process(hp.scale_data(resampled_signal.ravel()), 100 * expandfactor)
+        else:
+            workingdata, measure = hp.process(ECG_lean.ravel(), sample_rate=100)
+        
+        features = {'heartrate':measure['bpm'], 'RRinterval':measure['ibi'], 'RRsd': measure['sdnn'], 
+                    'pNN20':measure['pnn20'], 'pNN50':measure['pnn50'],'RRmad': measure['hr_mad']}
+    except:
+        features = {'heartrate':np.nan, 'RRinterval':np.nan, 'RRsd': np.nan, 
+                    'pNN20':np.nan, 'pNN50':np.nan,'RRmad': np.nan}
+        workingdata = {}
+        measure = {}
+        
     return features, workingdata, measure
 
     '''
