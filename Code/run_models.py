@@ -73,7 +73,7 @@ def feature_mix(to_mix):
 # list of models, feel free to add more (for parameters see model_params dict
 # in utils.py), //note : LogisticRegression did not converge, needs more iter
 models = [SGDClassifier(loss='log', max_iter=4000), GaussianNB(),
-          KNeighborsClassifier(), RandomForestClassifier(), RidgeClassifier(),
+          KNeighborsClassifier(), RandomForestClassifier(),
           AdaBoostClassifier()]
 
 # set up models below here ============================================================================================
@@ -88,7 +88,7 @@ for mix in mixes:
     X_test.to_hdf(out_loc + '-test.h5', key='test', mode='w')
     fit_models['-'.join(mix)] = model_wrapper(models, X_train, get_data.y_train_multi, cat=['sex'],
                                               prefix=pref + '-'.join(mix), scoring='roc_auc_ovr',
-                                              n_jobs=-2, cv=5)
+                                              n_jobs=-3, cv=5)
 
 # # concat patient meta-data features with each of the above
 # X_train_metmr = pd.concat([X_train_mr, x_train_meta], axis=1)
