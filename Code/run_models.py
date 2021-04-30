@@ -77,7 +77,7 @@ def feature_mix(to_mix):
 
 # list of models, feel free to add more (for parameters see model_params dict
 # in utils.py), //note : LogisticRegression did not converge, needs more iter
-models = [SGDClassifier(max_iter=3000), LogisticRegression(max_iter=3000), GaussianNB(),
+models = [SGDClassifier(loss='log', max_iter=4000), GaussianNB(),
           KNeighborsClassifier(), RandomForestClassifier(), RidgeClassifier(),
           AdaBoostClassifier()]
 

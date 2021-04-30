@@ -53,13 +53,15 @@ def matrix_2_df(matrix, column_prefix='lead_'):
 
 # dictionary of dictionaries of model paramenters (follow formatting if edit)
 model_params = {'svc': {'svc__C': np.logspace(-3, 1, 5), 'svc__kernel': ['rbf'], 'svc__gamma': ['auto', 'scale']},
-                'sgdclassifier': {'sgdclassifier__alpha': np.logspace(-4, -1, 5)},
+                'sgdclassifier': {'sgdclassifier__alpha': np.logspace(-4, -1, 5),
+                                  'sgdclassifier__penalty': ['l2', 'l1']},
                 'linearsvc': {'linearsvc__C': np.logspace(-3, 1, 5)},
                 'logisticregression': {'logisticregression__C': np.logspace(-3, 1, 5)},
                 'kneighborsclassifier': {'kneighborsclassifier__n_neighbors': [1, 5, 7]},
                 'randomforestclassifier': {'randomforestclassifier__n_estimators': [50, 100, 200]},
                 'ridgeclassifier': {'ridgeclassifier__alpha': np.logspace(-2, 2, 5)},
                 'adaboostclassifier': {'adaboostclassifier__n_estimators': [50, 100]}}
+
 
 def make_gridcv(classifier, multi_label=False, **kwargs):
     """
@@ -199,7 +201,7 @@ def gridcv_all(clf, column_names, categorical=None, **kwargs):
 
         # default parameters
         default_params = {'columntransformer__num__pca': ['passthrough', PCA(.80, svd_solver='full'),
-                                                      PCA(.90, svd_solver='full'), PCA(.95, svd_solver='full')]}
+                                                          PCA(.90, svd_solver='full'), PCA(.95, svd_solver='full')]}
 
     else:
         preprocessing = make_pipeline(StandardScaler(), PCA())
@@ -209,7 +211,7 @@ def gridcv_all(clf, column_names, categorical=None, **kwargs):
 
         # default parameters
         default_params = {'pipeline__pca': ['passthrough', PCA(.80, svd_solver='full'),
-                                                      PCA(.90, svd_solver='full'), PCA(.95, svd_solver='full')]}
+                                            PCA(.90, svd_solver='full'), PCA(.95, svd_solver='full')]}
 
     clf_key = str(type(clf)).split('.')[-1][:-2].lower()
 
