@@ -24,16 +24,33 @@ def plot_multi_ROC(models, X_test, y_test):
         plt.show()
 
 
-def plot_scores(df):
+def plot_scores_CV(df):
     '''Return a barplot comparing model performance'''
-    fig, ax = plt.subplots()
-    ax = sns.barplot(
-        x = 'output_name',
+    sns.set_theme(style="whitegrid")
+    g = sns.catplot(
+        x = 'classifier',
         y = 'best_score',
-        data = df)
-    ax.set_title('Model scores')
-    ax.set_xlabel('')
-    plt.xticks(rotation=90)
+        data = df,
+        kind = 'bar',
+        hue = 'data_stream')
+    g.set_axis_labels('', 'Best score')
+    g.despine(left=True)
+    plt.xticks(rotation=15)
+    plt.show()
+    
+    
+def plot_scores_test(df, col_name='ROC_AUC'):  set
+    '''Return a barplot comparing model performance'''
+    sns.set_theme(style="whitegrid")
+    g = sns.catplot(
+        x = 'classifier',
+        y = 'ROC_AUC',
+        data = df,
+        kind = 'bar',
+        hue = 'data_stream')
+    g.set_axis_labels('', 'Best score')
+    g.despine(left=True)
+    plt.xticks(rotation=15)
     plt.show()
 
 
@@ -53,6 +70,11 @@ def get_performance(outputs):
         models.append(model_output)
     model_info_df = pd.concat(frames, ignore_index=True)
     
+    # Label each row with the corresponding classifier
+    # and data stream
+    model_info_df[['data_stream', 'classifier']] = model_info_df['output_name']\
+        .str.split('_', 1, expand=True)
+    
     return model_info_df
 
 
@@ -66,8 +88,9 @@ output_folder = cur_dir + '\Output'
 outputs = [entry for entry in os.scandir(output_folder) \
            if not entry.name.startswith('.') and entry.is_file()]
 
-    
-get_performance(outputs)
+model_info_df = get_performance(outputs)
+
+plot_scores(model_info_df)
 
 ################## Need the model input to plot ROC
 
