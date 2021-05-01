@@ -12,7 +12,7 @@ results_folder = os.path.abspath(r'..\Results')
 
 # file names
 outputs = os.listdir(output_folder)
-test_data = [i for i in os.listdir(data_folder) if '.h5' in i]
+test_data = [i for i in os.listdir(data_folder) if 'test.h5' in i]
 
 # true labels
 y_true = np.load(os.path.join(data_folder, 'y_test-final.npy'))
@@ -31,7 +31,7 @@ x_tests = {'-'.join(t.split('-')[:-1]): pd.read_hdf(os.path.join(data_folder, t)
 cnf_matrices = defaultdict(dict)
 scores = defaultdict(list)
 clf_reports = defaultdict(dict)
-for dm in data_model[:2]:
+for dm in data_model[2:4]:
     model = load(os.path.join(output_folder, dm[1]))
     y_pred = model.predict(x_tests[dm[0]])
 

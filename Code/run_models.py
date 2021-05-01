@@ -44,7 +44,7 @@ X_val_mr.columns = ['f_' + str(i) for i in X_val_mr.columns]
 X_train_wv.columns = ['f_' + str(i) for i in X_train_wv.columns]
 X_val_wv.columns = ['f_' + str(i) for i in X_val_wv.columns]
 
-feature_data = {'MR': {'train': X_train_mr, 'test': X_val_mr}, 'wavelet': {'train': X_train_wv, 'test': X_val_mr},
+feature_data = {'MR': {'train': X_train_mr, 'test': X_val_mr}, 'wavelet': {'train': X_train_wv, 'test': X_val_wv},
                 'meta': {'train': x_train_meta, 'test': x_val_meta},
                 'ecg': {'train': get_data.X_train_ecg, 'test': get_data.X_test_ecg}}
 
@@ -80,21 +80,21 @@ pref = 'fil01-'
 for mix in mixes:
     X_train, X_test = feature_mix(mix)
     out_loc = os.path.join(get_data.data_path, pref + '-'.join(mix))
-    # X_train.to_hdf(out_loc + '-train.h5', key='train', mode='w')
-    # X_test.to_hdf(out_loc + '-test.h5', key='test', mode='w')
-    fit_models['-'.join(mix)] = model_wrapper(models[:1], X_train, get_data.y_train_multi, cat=['sex'],
-                                              prefix=pref + '-'.join(mix), scoring=ham_loss,
-                                              n_jobs=-3, cv=5)
+    X_train.to_hdf(out_loc + '-train.h5', key='train', mode='w')
+    X_test.to_hdf(out_loc + '-test.h5', key='test', mode='w')
+    # fit_models['-'.join(mix)] = model_wrapper(models[:1], X_train, get_data.y_train_multi, cat=['sex'],
+    #                                           prefix=pref + '-'.join(mix), scoring=ham_loss,
+    #                                           n_jobs=-3, cv=5)
 
 no_mix = [['MR'], ['wavelet']]
 
 for mix in no_mix:
     X_train, X_test = feature_mix(mix)
     out_loc = os.path.join(get_data.data_path, pref + '-'.join(mix))
-    # X_train.to_hdf(out_loc + '-train.h5', key='train', mode='w')
-    # X_test.to_hdf(out_loc + '-test.h5', key='test', mode='w')
-    fit_models['-'.join(mix)] = model_wrapper(models[:1], X_train, get_data.y_train_multi, prefix=pref + '-'.join(mix),
-                                              scoring=ham_loss, n_jobs=-3, cv=5)
+    X_train.to_hdf(out_loc + '-train.h5', key='train', mode='w')
+    X_test.to_hdf(out_loc + '-test.h5', key='test', mode='w')
+    # fit_models['-'.join(mix)] = model_wrapper(models[:1], X_train, get_data.y_train_multi, prefix=pref + '-'.join(mix),
+    #                                           scoring=ham_loss, n_jobs=-3, cv=5)
 
 # # concat patient meta-data features with each of the above
 # X_train_metmr = pd.concat([X_train_mr, x_train_meta], axis=1)
