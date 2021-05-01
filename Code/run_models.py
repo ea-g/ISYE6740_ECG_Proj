@@ -12,7 +12,7 @@ import os
 
 ham_loss = make_scorer(hamming_loss)
 
-to_filter = True
+to_filter = False
 
 # load in data to local pointers
 x_train = get_data.X_train
@@ -73,9 +73,9 @@ models = [LogisticRegression(solver='saga', max_iter=3000, tol=1e-3), SGDClassif
           AdaBoostClassifier()]
 
 # set up models below here ============================================================================================
-mixes = [['MR', 'meta', 'ecg'], ['wavelet', 'meta', 'ecg'], ['meta', 'ecg']]
+mixes = [['MR', 'meta', 'ecg'], ['wavelet', 'meta', 'ecg']]  # , ['meta', 'ecg']]
 fit_models = {}
-pref = 'fil01-'
+pref = 'raw01-'
 
 for mix in mixes:
     X_train, X_test = feature_mix(mix)
