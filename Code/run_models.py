@@ -2,7 +2,7 @@ import pandas as pd
 import get_data
 from sklearn.metrics import hamming_loss, make_scorer
 from sktime.transformations.panel.rocket import MiniRocketMultivariate
-from sklearn.linear_model import RidgeClassifier, SGDClassifier
+from sklearn.linear_model import RidgeClassifier, SGDClassifier, LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
@@ -68,7 +68,7 @@ def feature_mix(to_mix):
 
 # list of models, feel free to add more (for parameters see model_params dict
 # in utils.py), //note : LogisticRegression did not converge, needs more iter
-models = [SGDClassifier(loss='log', max_iter=4000), SGDClassifier(max_iter=4000), GaussianNB(),
+models = [LogisticRegression(solver='saga', max_iter=1000), SGDClassifier(max_iter=4000), GaussianNB(),
           KNeighborsClassifier(), RandomForestClassifier(),
           AdaBoostClassifier()]
 
