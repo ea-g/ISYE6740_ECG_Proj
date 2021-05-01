@@ -8,3 +8,8 @@ Data/raw01-MR-meta-ecg-train.h5
 Data/raw01-MR-train.h5
 Data/raw01-wavelet-meta-ecg-train.h5
 Data/raw01-wavelet-train.h5
+Data/fil01-meta-ecg-train.h5
+Data/fil01-MR-meta-ecg-train.h5
+Data/fil01-MR-train.h5
+Data/fil01-wavelet-meta-ecg-train.h5
+Data/fil01-wavelet-train.h5
