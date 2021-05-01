@@ -31,7 +31,7 @@ x_tests = {'-'.join(t.split('-')[:-1]): pd.read_hdf(os.path.join(data_folder, t)
 cnf_matrices = defaultdict(dict)
 scores = defaultdict(list)
 clf_reports = defaultdict(dict)
-for dm in data_model[2:4]:
+for dm in data_model:
     model = load(os.path.join(output_folder, dm[1]))
     y_pred = model.predict(x_tests[dm[0]])
 
