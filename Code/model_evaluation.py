@@ -6,8 +6,10 @@ Created on Fri Apr 29 07:59:11 2021
 """
 
 import os
+import h5py
 import matplotlib.pyplot as plt
 import seaborn as sns
+import numpy as np
 import pandas as pd
 import scikitplot as skplt
 from collections import defaultdict
@@ -35,22 +37,25 @@ def plot_scores_CV(df):
         hue = 'data_stream')
     g.set_axis_labels('', 'Best score')
     g.despine(left=True)
-    plt.xticks(rotation=15)
+    plt.xticks(rotation=25)
+    
+    plot_title = 'CV from "{}" data stream'.format(df.iloc[0].output_name[:3])
+    g.fig.suptitle(plot_title, y=1)
     plt.show()
     
     
-def plot_scores_test(df, col_name='ROC_AUC'):  set
+def plot_scores_test(df, col_name='ROC_AUC'):
     '''Return a barplot comparing model performance'''
     sns.set_theme(style="whitegrid")
     g = sns.catplot(
         x = 'classifier',
-        y = 'ROC_AUC',
+        y = col_name,
         data = df,
         kind = 'bar',
         hue = 'data_stream')
     g.set_axis_labels('', 'Best score')
     g.despine(left=True)
-    plt.xticks(rotation=15)
+    plt.xticks(rotation=45)
     plt.show()
 
 
@@ -78,25 +83,41 @@ def get_performance(outputs):
     return model_info_df
 
 
-################## 
+##################  Plotting CV scores
 
 # The current working directory should be "..\ISYE6740_ECG_Proj"
 cur_dir = os.getcwd()
 output_folder = cur_dir + '\Output'
 
 # Get a list of model output files
-outputs = [entry for entry in os.scandir(output_folder) \
-           if not entry.name.startswith('.') and entry.is_file()]
+outputs_fil = [entry for entry in os.scandir(output_folder) \
+           if not entry.name.startswith('.') and entry.is_file() and entry.name[0:3] == 'fil']
 
-model_info_df = get_performance(outputs)
+outputs_raw = [entry for entry in os.scandir(output_folder) \
+           if not entry.name.startswith('.') and entry.is_file() and entry.name[0:3] == 'raw']
 
-plot_scores(model_info_df)
+    
+fil_info = get_performance(outputs_fil)
+raw_info = get_performance(outputs_raw)
 
-################## Need the model input to plot ROC
+plot_scores_CV(fil_info)
+plot_scores_CV(raw_info)
 
-plot_multi_ROC(models, X_test_meta, y_test)
 
-# model = models[3]
-# y_proba = model.predict_proba(X_val_wv)
-# skplt.metrics.plot_roc_curve(y_train_meta, y_proba)
-# plt.show()
+##################  Plotting scores from test set
+test_scores_location = cur_dir + '\Results\\'
+
+clf_reports = np.load(test_scores_location + 'clf_reports.npy', allow_pickle=True)[()]
+cnf_matrices = np.load(test_scores_location + 'cnf_matrices.npy', allow_pickle=True)[()]
+
+scoring_list = []
+for dts, models in clf_reports.items():
+    for model, scores in models.items():
+        for diag, scoring in scores.items():
+            for scoring_type, score_val in scoring.items():
+                temp = (dts, model, diag, scoring_type, score_val)
+                scoring_list.append(temp)
+
+scoring_df = pd.DataFrame(scoring_list,
+                          columns = ['data_stream', 'model', 'diagnosis', 'score_type', 'score_value'])
+
