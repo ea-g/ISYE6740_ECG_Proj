@@ -58,7 +58,7 @@ for dm in data_model:
                                                                                                  'NORM', 'STTC'])
 
 # save scores dataframe
-pd.DataFrame(data=scores).to_hdf(os.path.join(results_folder, 'scores.h5'), key='scores')
+pd.DataFrame(data=scores).to_csv(os.path.join(results_folder, 'scores.csv'))
 
 # save clf_reports
 np.save(os.path.join(results_folder, 'clf_reports.npy'), clf_reports)

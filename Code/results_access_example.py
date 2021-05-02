@@ -8,7 +8,7 @@ import pandas as pd
 results_folder = os.path.abspath(r'..\Results')
 
 # to get the scores data frame
-scores_df = pd.read_hdf(os.path.join(results_folder, 'scores.h5'), key='scores')
+scores_df = pd.read_csv(os.path.join(results_folder, 'scores.csv'), index_col=0)
 
 # to get all multilabel confusion matrices for plotting
 cnf_matrices = np.load(os.path.join(results_folder, 'cnf_matrices.npy'), allow_pickle=True).item()
