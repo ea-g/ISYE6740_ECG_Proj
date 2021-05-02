@@ -1,3 +1,15 @@
 
 Code/scratch_eric.py
 .idea/ISYE6740_ECG_Proj.iml
+Data/raw01-MR-meta-train.h5
+Output/try-MR-meta-ecg_SGDClassifier.joblib
+Data/raw01-meta-ecg-train.h5
+Data/raw01-MR-meta-ecg-train.h5
+Data/raw01-MR-train.h5
+Data/raw01-wavelet-meta-ecg-train.h5
+Data/raw01-wavelet-train.h5
+Data/fil01-meta-ecg-train.h5
+Data/fil01-MR-meta-ecg-train.h5
+Data/fil01-MR-train.h5
+Data/fil01-wavelet-meta-ecg-train.h5
+Data/fil01-wavelet-train.h5

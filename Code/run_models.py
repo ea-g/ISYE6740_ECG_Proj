@@ -1,39 +1,29 @@
 import pandas as pd
 import get_data
+from sklearn.metrics import hamming_loss, make_scorer
 from sktime.transformations.panel.rocket import MiniRocketMultivariate
-from sklearn.linear_model import RidgeClassifier, LogisticRegression, SGDClassifier
+from sklearn.linear_model import RidgeClassifier, SGDClassifier, LogisticRegression
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.naive_bayes import GaussianNB
 from wavelet_features import get_ecg_features
-from utils import matrix_2_df, model_wrapper, filter_all, extract_all_features
+from utils import matrix_2_df, model_wrapper, filter_all, output_folder
+import os
+
+ham_loss = make_scorer(hamming_loss)
 
 to_filter = False
 
-if get_data.reduced:
-    x_train = get_data.X_train
-    x_train_meta = get_data.X_train_meta
-    x_val = get_data.X_test
-    x_val_meta = get_data.X_test_meta
-
-else:
-    x_train = get_data.X_train
-    x_train_meta = get_data.X_train_meta
-    x_val = get_data.X_val
-    x_val_meta = get_data.X_val_meta
+# load in data to local pointers
+x_train = get_data.X_train
+x_train_meta = get_data.X_train_meta
+x_val = get_data.X_test
+x_val_meta = get_data.X_test_meta
 
 if to_filter:
     x_train = filter_all(x_train)
     x_val = filter_all(x_val)
 
-#     # # extract Dr.Ojas features
-#     # X_train_ecg = extract_all_features(x_train)
-#     # X_val_ecg = extract_all_features(x_val)
-#
-# else:
-#     # filter only for ECG descriptors
-#     X_train_ecg = extract_all_features(filter_all(x_train))
-#     X_val_ecg = extract_all_features(filter_all(x_val))
 
 # extract features with wavelet transform
 X_train_wv = pd.DataFrame(data=get_ecg_features(x_train))
@@ -54,8 +44,9 @@ X_val_mr.columns = ['f_' + str(i) for i in X_val_mr.columns]
 X_train_wv.columns = ['f_' + str(i) for i in X_train_wv.columns]
 X_val_wv.columns = ['f_' + str(i) for i in X_val_wv.columns]
 
-feature_data = {'MR': {'train': X_train_mr, 'test': X_val_mr}, 'wavelet': {'train': X_train_wv, 'test': X_val_mr},
-                'meta': {'train': x_train_meta, 'test': x_val_meta}}
+feature_data = {'MR': {'train': X_train_mr, 'test': X_val_mr}, 'wavelet': {'train': X_train_wv, 'test': X_val_wv},
+                'meta': {'train': x_train_meta, 'test': x_val_meta},
+                'ecg': {'train': get_data.X_train_ecg, 'test': get_data.X_test_ecg}}
 
 
 def feature_mix(to_mix):
@@ -77,19 +68,33 @@ def feature_mix(to_mix):
 
 # list of models, feel free to add more (for parameters see model_params dict
 # in utils.py), //note : LogisticRegression did not converge, needs more iter
-models = [SGDClassifier(loss='log', max_iter=4000), GaussianNB(),
-          KNeighborsClassifier(), RandomForestClassifier(), RidgeClassifier(),
+models = [LogisticRegression(solver='saga', max_iter=3000, tol=1e-3), SGDClassifier(max_iter=4000), GaussianNB(),
+          KNeighborsClassifier(), RandomForestClassifier(),
           AdaBoostClassifier()]
 
 # set up models below here ============================================================================================
-mixes = [['MR', 'meta'], ['wavelet', 'meta']]
+mixes = [['MR', 'meta', 'ecg'], ['wavelet', 'meta', 'ecg']]  # , ['meta', 'ecg']]
 fit_models = {}
+pref = 'raw01-'
 
 for mix in mixes:
     X_train, X_test = feature_mix(mix)
-    fit_models['-'.join(mix)] = model_wrapper(models, X_train, get_data.y_train, cat=['sex'],
-                                              prefix='raw01-' + '-'.join(mix), scoring='roc_auc_ovr',
-                                              n_jobs=-2, cv=9)
+    out_loc = os.path.join(get_data.data_path, pref + '-'.join(mix))
+    X_train.to_hdf(out_loc + '-train.h5', key='train', mode='w')
+    X_test.to_hdf(out_loc + '-test.h5', key='test', mode='w')
+    # fit_models['-'.join(mix)] = model_wrapper(models[:1], X_train, get_data.y_train_multi, cat=['sex'],
+    #                                           prefix=pref + '-'.join(mix), scoring=ham_loss,
+    #                                           n_jobs=-3, cv=5)
+
+no_mix = [['MR'], ['wavelet']]
+
+for mix in no_mix:
+    X_train, X_test = feature_mix(mix)
+    out_loc = os.path.join(get_data.data_path, pref + '-'.join(mix))
+    X_train.to_hdf(out_loc + '-train.h5', key='train', mode='w')
+    X_test.to_hdf(out_loc + '-test.h5', key='test', mode='w')
+    # fit_models['-'.join(mix)] = model_wrapper(models[:1], X_train, get_data.y_train_multi, prefix=pref + '-'.join(mix),
+    #                                           scoring=ham_loss, n_jobs=-3, cv=5)
 
 # # concat patient meta-data features with each of the above
 # X_train_metmr = pd.concat([X_train_mr, x_train_meta], axis=1)
@@ -108,3 +113,9 @@ for mix in mixes:
 #                        scoring="roc_auc_ovr", n_jobs=3)
 
 # test = gridcv_all(SGDClassifier(max_iter=2000), X_train_metmr.columns, categorical=['sex'])
+
+# loaded_model = load(path)
+
+# y_pred = loaded_model.best_estimator_.predict_proba_(X_val_metmr)
+
+# classification_report(get_data.y_test_multi, y_pred)
