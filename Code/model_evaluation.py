@@ -121,3 +121,11 @@ for dts, models in clf_reports.items():
 scoring_df = pd.DataFrame(scoring_list,
                           columns = ['data_stream', 'model', 'diagnosis', 'score_type', 'score_value'])
 
+
+cnf_matrices_list = []
+for dts, models in cnf_matrices.items():
+    for model, scores, in models.items():
+        print(model)
+        print(scores)
+        #tn, fp, fn, tp = scores.ravel()
+        #cnf_matrices_list.append(dts, model, tn, fp, fn, tp)
