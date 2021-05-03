@@ -4,12 +4,11 @@ import os
 import numpy as np
 import pandas as pd
 from sklearn.metrics import ConfusionMatrixDisplay
-import scikitplot as skplot
 from joblib import load
 from itertools import cycle
 from sklearn.metrics import roc_curve, auc
 from scipy import interp
-from sklearn.metrics import roc_auc_score
+
 
 # assumes current working directory is ..\Code (where this file is)
 data_folder = os.path.abspath(r'..\Data')
