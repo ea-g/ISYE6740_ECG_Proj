@@ -1,0 +1,100 @@
+﻿Name,Trained against,CV Error,Test Error
+AdaBoost_Nofilter_ECGDescriptor_Mini Rocket,Hamming Loss,0.30627416,0.310107015
+AdaBoost_Nofilter_NoDescriptor_Mini Rocket,Hamming Loss,0.365328576,0.375980975
+AdaBoost_Nofilter_ECGDescriptor_Mini Rocket,ROC,0.29206066,0.292984542
+AdaBoost_Nofilter_NoDescriptor_Mini Rocket,ROC,0.315848944,0.321046373
+AdaBoost_Filter_ECGDescriptor_Mini Rocket,Hamming Loss,0.360927743,0.378834721
+AdaBoost_Filter_NoDescriptor_Mini Rocket,Hamming Loss,0.347606304,0.359096314
+AdaBoost_Filter_ECGDescriptor_Mini Rocket,ROC,0.062027951,0.142449465
+AdaBoost_Filter_NoDescriptor_Mini Rocket,ROC,0.063038953,0.141736029
+AdaBoost_Filter_ECGDescriptor_Standard,Hamming Loss,0.213499851,0.21783591
+AdaBoost_Filter_ECGDescriptor_Standard,ROC,0.220636337,0.220214031
+AdaBoost_Nofilter_ECGDescriptor_Wavelet,Hamming Loss,0.126732084,0.20332937
+AdaBoost_Nofilter_NoDescriptor_Wavelet,Hamming Loss,0.156824264,0.198097503
+AdaBoost_Nofilter_ECGDescriptor_Wavelet,ROC,0.104490039,0.172889417
+AdaBoost_Nofilter_NoDescriptor_Wavelet,ROC,0.106333631,0.18097503
+AdaBoost_Filter_ECGDescriptor_Wavelet,Hamming Loss,0.1573595,0.18882283
+AdaBoost_Filter_NoDescriptor_Wavelet,Hamming Loss,0.156229557,0.196432818
+AdaBoost_Filter_ECGDescriptor_Wavelet,ROC,0.103835861,0.173840666
+AdaBoost_Filter_NoDescriptor_Wavelet,ROC,0.136842105,0.18097503
+Naïve Bayes_Nofilter_ECGDescriptor_Mini Rocket,Hamming Loss,0.715551591,0.734363853
+Naïve Bayes_Nofilter_NoDescriptor_Mini Rocket,Hamming Loss,0.715551591,0.734363853
+Naïve Bayes_Nofilter_ECGDescriptor_Mini Rocket,ROC,0.437169194,0.428061831
+Naïve Bayes_Nofilter_NoDescriptor_Mini Rocket,ROC,0.437942313,0.428061831
+Naïve Bayes_Filter_ECGDescriptor_Mini Rocket,Hamming Loss,0.715551591,0.734363853
+Naïve Bayes_Filter_NoDescriptor_Mini Rocket,Hamming Loss,0.715551591,0.734363853
+Naïve Bayes_Filter_ECGDescriptor_Mini Rocket,ROC,0.204281891,0.187395957
+Naïve Bayes_Filter_NoDescriptor_Mini Rocket,ROC,0.205649718,0.187871581
+Naïve Bayes_Filter_ECGDescriptor_Standard,Hamming Loss,0.243354148,0.234007134
+Naïve Bayes_Filter_ECGDescriptor_Standard,ROC,0.231281594,0.219738407
+Naïve Bayes_Nofilter_ECGDescriptor_Wavelet,Hamming Loss,0.29622361,0.280380499
+Naïve Bayes_Nofilter_NoDescriptor_Wavelet,Hamming Loss,0.297591436,0.283234245
+Naïve Bayes_Nofilter_ECGDescriptor_Wavelet,ROC,0.285221528,0.278953627
+Naïve Bayes_Nofilter_NoDescriptor_Wavelet,ROC,0.286410943,0.280142687
+Naïve Bayes_Filter_ECGDescriptor_Wavelet,Hamming Loss,0.279036574,0.275624257
+Naïve Bayes_Filter_NoDescriptor_Wavelet,Hamming Loss,0.279869164,0.27705113
+Naïve Bayes_Filter_ECGDescriptor_Wavelet,ROC,0.258994945,0.237812128
+Naïve Bayes_Filter_NoDescriptor_Wavelet,ROC,0.258994945,0.238287753
+k-nearest neighbors_Nofilter_ECGDescriptor_Mini Rocket,Hamming Loss,0.280225989,0.309631391
+k-nearest neighbors_Nofilter_NoDescriptor_Mini Rocket,Hamming Loss,0.281712756,0.309869203
+k-nearest neighbors_Nofilter_ECGDescriptor_Mini Rocket,ROC,0.278085043,0.293222354
+k-nearest neighbors_Nofilter_NoDescriptor_Mini Rocket,ROC,0.278322926,0.291557669
+k-nearest neighbors_Filter_ECGDescriptor_Mini Rocket,Hamming Loss,0.374130241,0.383590963
+k-nearest neighbors_Filter_NoDescriptor_Mini Rocket,Hamming Loss,0.375141243,0.38549346
+k-nearest neighbors_Filter_ECGDescriptor_Mini Rocket,ROC,0.141897116,0.163614744
+k-nearest neighbors_Filter_NoDescriptor_Mini Rocket,ROC,0.142313411,0.163614744
+k-nearest neighbors_Filter_ECGDescriptor_Standard,Hamming Loss,0.000178412,0.306064209
+k-nearest neighbors_Filter_ECGDescriptor_Standard,ROC,0.200118941,0.22568371
+k-nearest neighbors_Nofilter_ECGDescriptor_Wavelet,Hamming Loss,0.000178412,0.235671819
+k-nearest neighbors_Nofilter_NoDescriptor_Wavelet,Hamming Loss,0.000178412,0.242092747
+k-nearest neighbors_Nofilter_ECGDescriptor_Wavelet,ROC,0.170621469,0.200475624
+k-nearest neighbors_Nofilter_NoDescriptor_Wavelet,ROC,0.173297651,0.205707491
+k-nearest neighbors_Filter_ECGDescriptor_Wavelet,Hamming Loss,0.000178412,0.240903686
+k-nearest neighbors_Filter_NoDescriptor_Wavelet,Hamming Loss,0.000178412,0.243757432
+k-nearest neighbors_Filter_ECGDescriptor_Wavelet,ROC,0.166636931,0.190963139
+k-nearest neighbors_Filter_NoDescriptor_Wavelet,ROC,0.165982753,0.187871581
+Logistic Regression_Nofilter_ECGDescriptor_Mini Rocket,Hamming Loss,0.260005947,0.257312723
+Logistic Regression_Nofilter_NoDescriptor_Mini Rocket,Hamming Loss,0.260005947,0.257312723
+Logistic Regression_Nofilter_ECGDescriptor_Mini Rocket,ROC,0.081296461,0.132223543
+Logistic Regression_Nofilter_NoDescriptor_Mini Rocket,ROC,0.072375855,0.126753864
+Logistic Regression_Filter_ECGDescriptor_Mini Rocket,Hamming Loss,0.260005947,0.257312723
+Logistic Regression_Filter_NoDescriptor_Mini Rocket,Hamming Loss,0.260005947,0.257312723
+Logistic Regression_Filter_ECGDescriptor_Mini Rocket,ROC,0.422539399,0.421878716
+Logistic Regression_Filter_NoDescriptor_Mini Rocket,ROC,0.416176033,0.408561237
+Logistic Regression_Filter_ECGDescriptor_Standard,Hamming Loss,0.260005947,0.257312723
+Logistic Regression_Filter_ECGDescriptor_Standard,ROC,0.229438002,0.219738407
+Logistic Regression_Nofilter_ECGDescriptor_Wavelet,Hamming Loss,0.260005947,0.257312723
+Logistic Regression_Nofilter_NoDescriptor_Wavelet,Hamming Loss,0.260005947,0.257312723
+Logistic Regression_Nofilter_ECGDescriptor_Wavelet,ROC,0.136961047,0.160047562
+Logistic Regression_Nofilter_NoDescriptor_Wavelet,ROC,0.137555754,0.164328181
+Logistic Regression_Filter_ECGDescriptor_Wavelet,Hamming Loss,0.260005947,0.257312723
+Logistic Regression_Filter_NoDescriptor_Wavelet,Hamming Loss,0.260005947,0.257312723
+Logistic Regression_Filter_ECGDescriptor_Wavelet,ROC,0.138447814,0.157669441
+Logistic Regression_Filter_NoDescriptor_Wavelet,ROC,0.131549212,0.160998811
+Random Forest_Nofilter_ECGDescriptor_Mini Rocket,Hamming Loss,0.565388046,0.569322235
+Random Forest_Nofilter_NoDescriptor_Mini Rocket,Hamming Loss,0.539101992,0.545541023
+Random Forest_Nofilter_ECGDescriptor_Mini Rocket,ROC,0.604519774,0.613793103
+Random Forest_Nofilter_NoDescriptor_Mini Rocket,ROC,0.576330657,0.590963139
+Random Forest_Filter_ECGDescriptor_Mini Rocket,Hamming Loss,0.522093369,0.536504162
+Random Forest_Filter_NoDescriptor_Mini Rocket,Hamming Loss,0.573178709,0.577407848
+Random Forest_Filter_ECGDescriptor_Mini Rocket,ROC,0.000178412,0.135552913
+Random Forest_Filter_NoDescriptor_Mini Rocket,ROC,0.000178412,0.136979786
+Random Forest_Filter_ECGDescriptor_Standard,Hamming Loss,0.000237883,0.231629013
+Random Forest_Filter_ECGDescriptor_Standard,ROC,0.000178412,0.225445898
+Random Forest_Nofilter_ECGDescriptor_Wavelet,Hamming Loss,0.000594707,0.208561237
+Random Forest_Nofilter_NoDescriptor_Wavelet,Hamming Loss,0.000416295,0.21117717
+Random Forest_Nofilter_ECGDescriptor_Wavelet,ROC,0.000178412,0.168846611
+Random Forest_Nofilter_NoDescriptor_Wavelet,ROC,0.000178412,0.167657551
+Random Forest_Filter_ECGDescriptor_Wavelet,Hamming Loss,0.000297354,0.195243757
+Random Forest_Filter_NoDescriptor_Wavelet,Hamming Loss,0.000416295,0.203804994
+Random Forest_Filter_ECGDescriptor_Wavelet,ROC,0.000178412,0.168608799
+Random Forest_Filter_NoDescriptor_Wavelet,ROC,0.000178412,0.168133175
+Stochastic Gradient_Nofilter_ECGDescriptor_Mini Rocket,Hamming Loss,0.243056795,0.227586207
+Stochastic Gradient_Nofilter_NoDescriptor_Mini Rocket,Hamming Loss,0.340767172,0.346016647
+Stochastic Gradient_Filter_ECGDescriptor_Mini Rocket,Hamming Loss,0.322093369,0.317479191
+Stochastic Gradient_Filter_NoDescriptor_Mini Rocket,Hamming Loss,0.279928635,0.264209275
+Stochastic Gradient_Filter_ECGDescriptor_Standard,Hamming Loss,0.244008326,0.235671819
+Stochastic Gradient_Nofilter_ECGDescriptor_Wavelet,Hamming Loss,0.221528397,0.214268728
+Stochastic Gradient_Nofilter_NoDescriptor_Wavelet,Hamming Loss,0.223490931,0.224256837
+Stochastic Gradient_Filter_ECGDescriptor_Wavelet,Hamming Loss,0.233898305,0.240903686
+Stochastic Gradient_Filter_NoDescriptor_Wavelet,Hamming Loss,0.224442462,0.234007134
