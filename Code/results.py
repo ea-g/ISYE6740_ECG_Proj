@@ -13,9 +13,11 @@ results_folder = os.path.abspath(r'..\Results')
 # file names
 outputs = os.listdir(output_folder)
 test_data = [i for i in os.listdir(data_folder) if 'test.h5' in i]
+train_data = [i for i in os.listdir(data_folder) if 'train.h5' in i]
 
 # true labels
 y_true = np.load(os.path.join(data_folder, 'y_test-final.npy'))
+y_true_train = np.load(os.path.join(data_folder, 'y_train-final.npy'))
 
 data_model = []
 for t in test_data:
@@ -27,6 +29,7 @@ for t in test_data:
 
 # read in all test data streams
 x_tests = {'-'.join(t.split('-')[:-1]): pd.read_hdf(os.path.join(data_folder, t), key='test') for t in test_data}
+x_trains = {'-'.join(t.split('-')[:-1]): pd.read_hdf(os.path.join(data_folder, t), key='train') for t in train_data}
 
 cnf_matrices = defaultdict(dict)
 scores = defaultdict(list)
@@ -34,6 +37,7 @@ clf_reports = defaultdict(dict)
 for dm in data_model:
     model = load(os.path.join(output_folder, dm[1]))
     y_pred = model.predict(x_tests[dm[0]])
+    y_pred_train = model.predict(x_trains[dm[0]])
 
     # add in data
     scores['classifier'].append(dm[1].split('_')[-1].split('.')[0])
@@ -41,11 +45,16 @@ for dm in data_model:
 
     if 'SGDClassifier' not in dm[1]:
         y_prob = model.predict_proba(x_tests[dm[0]])
+        y_prob_train = model.predict_proba(x_trains[dm[0]])
         scores['ROC_AUC'].append(roc_auc_score(y_true, y_prob))
+        scores['ROC_AUC_training'].append(roc_auc_score(y_true_train, y_prob_train))
+
     else:
         scores['ROC_AUC'].append(np.nan)
+        scores['ROC_AUC_training'].append(np.nan)
 
     scores['hamming_loss'].append(hamming_loss(y_true, y_pred))
+    scores['hamming_loss_training'].append(hamming_loss(y_true_train, y_pred_train))
     scores['best_params'].append(model.best_params_)
 
     # get confusion matrix
