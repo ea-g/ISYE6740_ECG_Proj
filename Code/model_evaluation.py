@@ -4,7 +4,6 @@ Created on Fri Apr 29 07:59:11 2021
 
 @author: phumt
 """
-
 import os
 import h5py
 import matplotlib.pyplot as plt
@@ -16,7 +15,6 @@ from collections import defaultdict
 from joblib import dump, load
 
 ##################
-
 def plot_multi_ROC(models, X_test, y_test):
     '''Plot the multiple ROC curves for each model
     from https://stackoverflow.com/questions/25009284/how-to-plot-roc-curve-in-python'''
@@ -105,27 +103,31 @@ plot_scores_CV(raw_info)
 
 
 ##################  Plotting scores from test set
-test_scores_location = cur_dir + '\Results\\'
-
-clf_reports = np.load(test_scores_location + 'clf_reports.npy', allow_pickle=True)[()]
-cnf_matrices = np.load(test_scores_location + 'cnf_matrices.npy', allow_pickle=True)[()]
-
-scoring_list = []
-for dts, models in clf_reports.items():
-    for model, scores in models.items():
-        for diag, scoring in scores.items():
-            for scoring_type, score_val in scoring.items():
-                temp = (dts, model, diag, scoring_type, score_val)
-                scoring_list.append(temp)
-
-scoring_df = pd.DataFrame(scoring_list,
-                          columns = ['data_stream', 'model', 'diagnosis', 'score_type', 'score_value'])
+def plot_final_scores(df, score_train, score_test):
+    g = sns.scatterplot(data = df, 
+                    x = score_train, 
+                    y = score_test,
+                    hue = 'data_stream',
+                    style = 'classifier',
+                    alpha = 0.7)
+    x0, x1 = g.get_xlim()
+    y0, y1 = g.get_ylim()
+    lims = [max(x0, y0), min(x1, y1)]
+    g.plot(lims, lims, '--r', alpha=0.5)
+    plt.legend(bbox_to_anchor=(1.02, 1), loc='upper left', borderaxespad=0)
 
 
-cnf_matrices_list = []
-for dts, models in cnf_matrices.items():
-    for model, scores, in models.items():
-        print(model)
-        print(scores)
-        #tn, fp, fn, tp = scores.ravel()
-        #cnf_matrices_list.append(dts, model, tn, fp, fn, tp)
+# Plotting the results
+scores_csv = cur_dir + '\Results\\scores.csv'
+scores_df = pd.read_csv(scores_csv, header=0)
+
+# ROC scores
+roc_auc_scores = scores_df.drop(['hamming_loss', 'hamming_loss_training'], axis=1)
+roc_auc_scores = roc_auc_scores[roc_auc_scores['classifier'] != 'SGDClassifier']
+plot_final_scores(roc_auc_scores, 'ROC_AUC_training', 'ROC_AUC')
+
+
+# Hamming loss scores
+hl_scores = scores_df.drop(['ROC_AUC', 'ROC_AUC_training'], 
+                                axis=1)
+plot_final_scores(hl_scores, 'hamming_loss_training', 'hamming_loss')
