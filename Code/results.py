@@ -5,6 +5,11 @@ from sklearn.metrics import multilabel_confusion_matrix, classification_report, 
 from joblib import load
 from collections import defaultdict
 
+# ======================================================================================
+# please note that you must have the training data saved in the data folder
+# for the training scores below training data is not saved on github due to repository
+# size limitations. You can comment out training data lines if only test scoring desired.
+
 # folder paths
 data_folder = os.path.abspath(r'..\Data')
 output_folder = os.path.abspath(r'..\Output')
