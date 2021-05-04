@@ -80,7 +80,7 @@ pref = 'fil02-'
 for mix in mixes:
     X_train, X_test = feature_mix(mix)
     out_loc = os.path.join(get_data.data_path, pref + '-'.join(mix))
-    # X_train.to_hdf(out_loc + '-train.h5', key='train', mode='w')
+    # X_train.to_hdf(out_loc + '-train.h5', key='train', mode='w')  # uncomment to save data
     # X_test.to_hdf(out_loc + '-test.h5', key='test', mode='w')
     fit_models['-'.join(mix)] = model_wrapper(models[:1], X_train, get_data.y_train_multi, cat=['sex'],
                                               prefix=pref + '-'.join(mix), scoring='roc_auc_ovr',
@@ -91,7 +91,7 @@ no_mix = [['MR'], ['wavelet']]
 for mix in no_mix:
     X_train, X_test = feature_mix(mix)
     out_loc = os.path.join(get_data.data_path, pref + '-'.join(mix))
-    # X_train.to_hdf(out_loc + '-train.h5', key='train', mode='w')
+    # X_train.to_hdf(out_loc + '-train.h5', key='train', mode='w')  # uncomment to save data
     # X_test.to_hdf(out_loc + '-test.h5', key='test', mode='w')
     fit_models['-'.join(mix)] = model_wrapper(models[:1], X_train, get_data.y_train_multi, prefix=pref + '-'.join(mix),
                                               scoring='roc_auc_ovr', n_jobs=-2, cv=5)
