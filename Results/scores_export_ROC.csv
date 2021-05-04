@@ -1,100 +1,100 @@
-﻿Name,Trained against,CV Error,Test Error
-AdaBoost_Nofilter_ECGDescriptor_Mini Rocket,Hamming Loss,0.30627416,0.310107015
-AdaBoost_Nofilter_NoDescriptor_Mini Rocket,Hamming Loss,0.365328576,0.375980975
-AdaBoost_Nofilter_ECGDescriptor_Mini Rocket,ROC,0.29206066,0.292984542
-AdaBoost_Nofilter_NoDescriptor_Mini Rocket,ROC,0.315848944,0.321046373
-AdaBoost_Filter_ECGDescriptor_Mini Rocket,Hamming Loss,0.360927743,0.378834721
-AdaBoost_Filter_NoDescriptor_Mini Rocket,Hamming Loss,0.347606304,0.359096314
-AdaBoost_Filter_ECGDescriptor_Mini Rocket,ROC,0.062027951,0.142449465
-AdaBoost_Filter_NoDescriptor_Mini Rocket,ROC,0.063038953,0.141736029
-AdaBoost_Filter_ECGDescriptor_Standard,Hamming Loss,0.213499851,0.21783591
-AdaBoost_Filter_ECGDescriptor_Standard,ROC,0.220636337,0.220214031
-AdaBoost_Nofilter_ECGDescriptor_Wavelet,Hamming Loss,0.126732084,0.20332937
-AdaBoost_Nofilter_NoDescriptor_Wavelet,Hamming Loss,0.156824264,0.198097503
-AdaBoost_Nofilter_ECGDescriptor_Wavelet,ROC,0.104490039,0.172889417
-AdaBoost_Nofilter_NoDescriptor_Wavelet,ROC,0.106333631,0.18097503
-AdaBoost_Filter_ECGDescriptor_Wavelet,Hamming Loss,0.1573595,0.18882283
-AdaBoost_Filter_NoDescriptor_Wavelet,Hamming Loss,0.156229557,0.196432818
-AdaBoost_Filter_ECGDescriptor_Wavelet,ROC,0.103835861,0.173840666
-AdaBoost_Filter_NoDescriptor_Wavelet,ROC,0.136842105,0.18097503
-Naïve Bayes_Nofilter_ECGDescriptor_Mini Rocket,Hamming Loss,0.715551591,0.734363853
-Naïve Bayes_Nofilter_NoDescriptor_Mini Rocket,Hamming Loss,0.715551591,0.734363853
-Naïve Bayes_Nofilter_ECGDescriptor_Mini Rocket,ROC,0.437169194,0.428061831
-Naïve Bayes_Nofilter_NoDescriptor_Mini Rocket,ROC,0.437942313,0.428061831
-Naïve Bayes_Filter_ECGDescriptor_Mini Rocket,Hamming Loss,0.715551591,0.734363853
-Naïve Bayes_Filter_NoDescriptor_Mini Rocket,Hamming Loss,0.715551591,0.734363853
-Naïve Bayes_Filter_ECGDescriptor_Mini Rocket,ROC,0.204281891,0.187395957
-Naïve Bayes_Filter_NoDescriptor_Mini Rocket,ROC,0.205649718,0.187871581
-Naïve Bayes_Filter_ECGDescriptor_Standard,Hamming Loss,0.243354148,0.234007134
-Naïve Bayes_Filter_ECGDescriptor_Standard,ROC,0.231281594,0.219738407
-Naïve Bayes_Nofilter_ECGDescriptor_Wavelet,Hamming Loss,0.29622361,0.280380499
-Naïve Bayes_Nofilter_NoDescriptor_Wavelet,Hamming Loss,0.297591436,0.283234245
-Naïve Bayes_Nofilter_ECGDescriptor_Wavelet,ROC,0.285221528,0.278953627
-Naïve Bayes_Nofilter_NoDescriptor_Wavelet,ROC,0.286410943,0.280142687
-Naïve Bayes_Filter_ECGDescriptor_Wavelet,Hamming Loss,0.279036574,0.275624257
-Naïve Bayes_Filter_NoDescriptor_Wavelet,Hamming Loss,0.279869164,0.27705113
-Naïve Bayes_Filter_ECGDescriptor_Wavelet,ROC,0.258994945,0.237812128
-Naïve Bayes_Filter_NoDescriptor_Wavelet,ROC,0.258994945,0.238287753
-k-nearest neighbors_Nofilter_ECGDescriptor_Mini Rocket,Hamming Loss,0.280225989,0.309631391
-k-nearest neighbors_Nofilter_NoDescriptor_Mini Rocket,Hamming Loss,0.281712756,0.309869203
-k-nearest neighbors_Nofilter_ECGDescriptor_Mini Rocket,ROC,0.278085043,0.293222354
-k-nearest neighbors_Nofilter_NoDescriptor_Mini Rocket,ROC,0.278322926,0.291557669
-k-nearest neighbors_Filter_ECGDescriptor_Mini Rocket,Hamming Loss,0.374130241,0.383590963
-k-nearest neighbors_Filter_NoDescriptor_Mini Rocket,Hamming Loss,0.375141243,0.38549346
-k-nearest neighbors_Filter_ECGDescriptor_Mini Rocket,ROC,0.141897116,0.163614744
-k-nearest neighbors_Filter_NoDescriptor_Mini Rocket,ROC,0.142313411,0.163614744
-k-nearest neighbors_Filter_ECGDescriptor_Standard,Hamming Loss,0.000178412,0.306064209
-k-nearest neighbors_Filter_ECGDescriptor_Standard,ROC,0.200118941,0.22568371
-k-nearest neighbors_Nofilter_ECGDescriptor_Wavelet,Hamming Loss,0.000178412,0.235671819
-k-nearest neighbors_Nofilter_NoDescriptor_Wavelet,Hamming Loss,0.000178412,0.242092747
-k-nearest neighbors_Nofilter_ECGDescriptor_Wavelet,ROC,0.170621469,0.200475624
-k-nearest neighbors_Nofilter_NoDescriptor_Wavelet,ROC,0.173297651,0.205707491
-k-nearest neighbors_Filter_ECGDescriptor_Wavelet,Hamming Loss,0.000178412,0.240903686
-k-nearest neighbors_Filter_NoDescriptor_Wavelet,Hamming Loss,0.000178412,0.243757432
-k-nearest neighbors_Filter_ECGDescriptor_Wavelet,ROC,0.166636931,0.190963139
-k-nearest neighbors_Filter_NoDescriptor_Wavelet,ROC,0.165982753,0.187871581
-Logistic Regression_Nofilter_ECGDescriptor_Mini Rocket,Hamming Loss,0.260005947,0.257312723
-Logistic Regression_Nofilter_NoDescriptor_Mini Rocket,Hamming Loss,0.260005947,0.257312723
-Logistic Regression_Nofilter_ECGDescriptor_Mini Rocket,ROC,0.081296461,0.132223543
-Logistic Regression_Nofilter_NoDescriptor_Mini Rocket,ROC,0.072375855,0.126753864
-Logistic Regression_Filter_ECGDescriptor_Mini Rocket,Hamming Loss,0.260005947,0.257312723
-Logistic Regression_Filter_NoDescriptor_Mini Rocket,Hamming Loss,0.260005947,0.257312723
-Logistic Regression_Filter_ECGDescriptor_Mini Rocket,ROC,0.422539399,0.421878716
-Logistic Regression_Filter_NoDescriptor_Mini Rocket,ROC,0.416176033,0.408561237
-Logistic Regression_Filter_ECGDescriptor_Standard,Hamming Loss,0.260005947,0.257312723
-Logistic Regression_Filter_ECGDescriptor_Standard,ROC,0.229438002,0.219738407
-Logistic Regression_Nofilter_ECGDescriptor_Wavelet,Hamming Loss,0.260005947,0.257312723
-Logistic Regression_Nofilter_NoDescriptor_Wavelet,Hamming Loss,0.260005947,0.257312723
-Logistic Regression_Nofilter_ECGDescriptor_Wavelet,ROC,0.136961047,0.160047562
-Logistic Regression_Nofilter_NoDescriptor_Wavelet,ROC,0.137555754,0.164328181
-Logistic Regression_Filter_ECGDescriptor_Wavelet,Hamming Loss,0.260005947,0.257312723
-Logistic Regression_Filter_NoDescriptor_Wavelet,Hamming Loss,0.260005947,0.257312723
-Logistic Regression_Filter_ECGDescriptor_Wavelet,ROC,0.138447814,0.157669441
-Logistic Regression_Filter_NoDescriptor_Wavelet,ROC,0.131549212,0.160998811
-Random Forest_Nofilter_ECGDescriptor_Mini Rocket,Hamming Loss,0.565388046,0.569322235
-Random Forest_Nofilter_NoDescriptor_Mini Rocket,Hamming Loss,0.539101992,0.545541023
-Random Forest_Nofilter_ECGDescriptor_Mini Rocket,ROC,0.604519774,0.613793103
-Random Forest_Nofilter_NoDescriptor_Mini Rocket,ROC,0.576330657,0.590963139
-Random Forest_Filter_ECGDescriptor_Mini Rocket,Hamming Loss,0.522093369,0.536504162
-Random Forest_Filter_NoDescriptor_Mini Rocket,Hamming Loss,0.573178709,0.577407848
-Random Forest_Filter_ECGDescriptor_Mini Rocket,ROC,0.000178412,0.135552913
-Random Forest_Filter_NoDescriptor_Mini Rocket,ROC,0.000178412,0.136979786
-Random Forest_Filter_ECGDescriptor_Standard,Hamming Loss,0.000237883,0.231629013
-Random Forest_Filter_ECGDescriptor_Standard,ROC,0.000178412,0.225445898
-Random Forest_Nofilter_ECGDescriptor_Wavelet,Hamming Loss,0.000594707,0.208561237
-Random Forest_Nofilter_NoDescriptor_Wavelet,Hamming Loss,0.000416295,0.21117717
-Random Forest_Nofilter_ECGDescriptor_Wavelet,ROC,0.000178412,0.168846611
-Random Forest_Nofilter_NoDescriptor_Wavelet,ROC,0.000178412,0.167657551
-Random Forest_Filter_ECGDescriptor_Wavelet,Hamming Loss,0.000297354,0.195243757
-Random Forest_Filter_NoDescriptor_Wavelet,Hamming Loss,0.000416295,0.203804994
-Random Forest_Filter_ECGDescriptor_Wavelet,ROC,0.000178412,0.168608799
-Random Forest_Filter_NoDescriptor_Wavelet,ROC,0.000178412,0.168133175
-Stochastic Gradient_Nofilter_ECGDescriptor_Mini Rocket,Hamming Loss,0.243056795,0.227586207
-Stochastic Gradient_Nofilter_NoDescriptor_Mini Rocket,Hamming Loss,0.340767172,0.346016647
-Stochastic Gradient_Filter_ECGDescriptor_Mini Rocket,Hamming Loss,0.322093369,0.317479191
-Stochastic Gradient_Filter_NoDescriptor_Mini Rocket,Hamming Loss,0.279928635,0.264209275
-Stochastic Gradient_Filter_ECGDescriptor_Standard,Hamming Loss,0.244008326,0.235671819
-Stochastic Gradient_Nofilter_ECGDescriptor_Wavelet,Hamming Loss,0.221528397,0.214268728
-Stochastic Gradient_Nofilter_NoDescriptor_Wavelet,Hamming Loss,0.223490931,0.224256837
-Stochastic Gradient_Filter_ECGDescriptor_Wavelet,Hamming Loss,0.233898305,0.240903686
-Stochastic Gradient_Filter_NoDescriptor_Wavelet,Hamming Loss,0.224442462,0.234007134
+﻿Classifier,Filter,Feature Type,Age and Sex?,ECG Descriptors?,Trained Against,AUC Score (Train set),AUC Score (Test set),Hamming Loss (Train set),Hamming Loss (Test set),best_params
+AdaBoostClassifier,Filter,Standard,Yes,Yes,Hamming Loss,0.7647,0.7130,0.2135,0.2178,"{'columntransformer__num__pca': PCA(n_components=0.9, svd_solver='full'), 'onevsrestclassifier__estimator__n_estimators': 100}"
+GaussianNB,Filter,Standard,Yes,Yes,Hamming Loss,0.6748,0.6932,0.2434,0.2340,{'columntransformer__num__pca': 'passthrough'}
+KNeighborsClassifier,Filter,Standard,Yes,Yes,Hamming Loss,0.9997,0.5631,0.0002,0.3061,"{'columntransformer__num__pca': PCA(n_components=0.8, svd_solver='full'), 'onevsrestclassifier__estimator__n_neighbors': 1}"
+LogisticRegression,Filter,Standard,Yes,Yes,Hamming Loss,0.5000,0.5000,0.2600,0.2573,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__C': 0.001, 'onevsrestclassifier__estimator__penalty': 'l1'}"
+RandomForestClassifier,Filter,Standard,Yes,Yes,Hamming Loss,1.0000,0.6872,0.0002,0.2316,"{'columntransformer__num__pca': PCA(n_components=0.8, svd_solver='full'), 'onevsrestclassifier__estimator__n_estimators': 100}"
+SGDClassifier,Filter,Standard,Yes,Yes,Hamming Loss,,,0.2440,0.2357,"{'columntransformer__num__pca': PCA(n_components=0.95, svd_solver='full'), 'onevsrestclassifier__estimator__alpha': 0.0001, 'onevsrestclassifier__estimator__penalty': 'l2'}"
+AdaBoostClassifier,Filter,MiniRocket,Yes,Yes,Hamming Loss,0.6856,0.6836,0.3609,0.3788,"{'columntransformer__num__pca': PCA(n_components=0.95, svd_solver='full'), 'onevsrestclassifier__estimator__n_estimators': 50}"
+GaussianNB,Filter,MiniRocket,Yes,Yes,Hamming Loss,0.5324,0.5373,0.7156,0.7344,"{'columntransformer__num__pca': PCA(n_components=0.95, svd_solver='full')}"
+KNeighborsClassifier,Filter,MiniRocket,Yes,Yes,Hamming Loss,0.5866,0.5843,0.3741,0.3836,"{'columntransformer__num__pca': PCA(n_components=0.8, svd_solver='full'), 'onevsrestclassifier__estimator__n_neighbors': 1}"
+LogisticRegression,Filter,MiniRocket,Yes,Yes,Hamming Loss,0.5000,0.5000,0.2600,0.2573,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__C': 0.001, 'onevsrestclassifier__estimator__penalty': 'l1'}"
+RandomForestClassifier,Filter,MiniRocket,Yes,Yes,Hamming Loss,0.5296,0.5226,0.5221,0.5365,"{'columntransformer__num__pca': PCA(n_components=0.95, svd_solver='full'), 'onevsrestclassifier__estimator__n_estimators': 50}"
+SGDClassifier,Filter,MiniRocket,Yes,Yes,Hamming Loss,,,0.3221,0.3175,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__alpha': 0.1, 'onevsrestclassifier__estimator__penalty': 'l1'}"
+AdaBoostClassifier,Filter,MiniRocket,No,No,Hamming Loss,0.6630,0.6497,0.3476,0.3591,"{'onevsrestclassifier__estimator__n_estimators': 50, 'pipeline__pca': PCA(n_components=0.95, svd_solver='full')}"
+GaussianNB,Filter,MiniRocket,No,No,Hamming Loss,0.5323,0.5379,0.7156,0.7344,"{'pipeline__pca': PCA(n_components=0.95, svd_solver='full')}"
+KNeighborsClassifier,Filter,MiniRocket,No,No,Hamming Loss,0.5857,0.5831,0.3751,0.3855,"{'onevsrestclassifier__estimator__n_neighbors': 1, 'pipeline__pca': PCA(n_components=0.8, svd_solver='full')}"
+LogisticRegression,Filter,MiniRocket,No,No,Hamming Loss,0.5000,0.5000,0.2600,0.2573,"{'onevsrestclassifier__estimator__C': 0.001, 'onevsrestclassifier__estimator__penalty': 'l1', 'pipeline__pca': 'passthrough'}"
+RandomForestClassifier,Filter,MiniRocket,No,No,Hamming Loss,0.5101,0.4934,0.5732,0.5774,"{'onevsrestclassifier__estimator__n_estimators': 50, 'pipeline__pca': PCA(n_components=0.95, svd_solver='full')}"
+SGDClassifier,Filter,MiniRocket,No,No,Hamming Loss,,,0.2799,0.2642,"{'onevsrestclassifier__estimator__alpha': 0.1, 'onevsrestclassifier__estimator__penalty': 'l1', 'pipeline__pca': 'passthrough'}"
+AdaBoostClassifier,Filter,Wavelet,Yes,Yes,Hamming Loss,0.8905,0.8049,0.1574,0.1888,"{'columntransformer__num__pca': PCA(n_components=0.9, svd_solver='full'), 'onevsrestclassifier__estimator__n_estimators': 50}"
+GaussianNB,Filter,Wavelet,Yes,Yes,Hamming Loss,0.7135,0.7318,0.2790,0.2756,"{'columntransformer__num__pca': PCA(n_components=0.95, svd_solver='full')}"
+KNeighborsClassifier,Filter,Wavelet,Yes,Yes,Hamming Loss,0.9999,0.6305,0.0002,0.2409,"{'columntransformer__num__pca': PCA(n_components=0.8, svd_solver='full'), 'onevsrestclassifier__estimator__n_neighbors': 1}"
+LogisticRegression,Filter,Wavelet,Yes,Yes,Hamming Loss,0.5000,0.5000,0.2600,0.2573,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__C': 0.001, 'onevsrestclassifier__estimator__penalty': 'l1'}"
+RandomForestClassifier,Filter,Wavelet,Yes,Yes,Hamming Loss,1.0000,0.7936,0.0003,0.1952,"{'columntransformer__num__pca': PCA(n_components=0.95, svd_solver='full'), 'onevsrestclassifier__estimator__n_estimators': 50}"
+SGDClassifier,Filter,Wavelet,Yes,Yes,Hamming Loss,,,0.2339,0.2409,"{'columntransformer__num__pca': PCA(n_components=0.8, svd_solver='full'), 'onevsrestclassifier__estimator__alpha': 0.0001, 'onevsrestclassifier__estimator__penalty': 'l1'}"
+AdaBoostClassifier,Filter,Wavelet,No,No,Hamming Loss,0.8930,0.7870,0.1562,0.1964,"{'onevsrestclassifier__estimator__n_estimators': 50, 'pipeline__pca': PCA(n_components=0.95, svd_solver='full')}"
+GaussianNB,Filter,Wavelet,No,No,Hamming Loss,0.7113,0.7304,0.2799,0.2771,"{'pipeline__pca': PCA(n_components=0.95, svd_solver='full')}"
+KNeighborsClassifier,Filter,Wavelet,No,No,Hamming Loss,0.9999,0.6259,0.0002,0.2438,"{'onevsrestclassifier__estimator__n_neighbors': 1, 'pipeline__pca': PCA(n_components=0.8, svd_solver='full')}"
+LogisticRegression,Filter,Wavelet,No,No,Hamming Loss,0.5000,0.5000,0.2600,0.2573,"{'onevsrestclassifier__estimator__C': 0.001, 'onevsrestclassifier__estimator__penalty': 'l1', 'pipeline__pca': 'passthrough'}"
+RandomForestClassifier,Filter,Wavelet,No,No,Hamming Loss,1.0000,0.7892,0.0004,0.2038,"{'onevsrestclassifier__estimator__n_estimators': 50, 'pipeline__pca': PCA(n_components=0.95, svd_solver='full')}"
+SGDClassifier,Filter,Wavelet,No,No,Hamming Loss,,,0.2244,0.2340,"{'onevsrestclassifier__estimator__alpha': 0.0001, 'onevsrestclassifier__estimator__penalty': 'l2', 'pipeline__pca': PCA(n_components=0.8, svd_solver='full')}"
+RandomForestClassifier,NoFilter,MiniRocket,Yes,Yes,ROC-AUC,0.5331,0.5226,0.6045,0.6138,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__n_estimators': 200}"
+RandomForestClassifier,NoFilter,MiniRocket,No,No,ROC-AUC,0.5583,0.5379,0.5763,0.5910,"{'onevsrestclassifier__estimator__n_estimators': 200, 'pipeline__pca': 'passthrough'}"
+LogisticRegression,Filter,MiniRocket,No,No,ROC-AUC,0.6098,0.6008,0.4162,0.4086,"{'onevsrestclassifier__estimator__C': 0.1, 'onevsrestclassifier__estimator__penalty': 'l1', 'pipeline__pca': 'passthrough'}"
+LogisticRegression,Filter,MiniRocket,Yes,Yes,ROC-AUC,0.6237,0.6109,0.4225,0.4219,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__C': 0.1, 'onevsrestclassifier__estimator__penalty': 'l1'}"
+AdaBoostClassifier,NoFilter,MiniRocket,No,No,ROC-AUC,0.6934,0.6683,0.3158,0.3210,"{'onevsrestclassifier__estimator__n_estimators': 50, 'pipeline__pca': 'passthrough'}"
+GaussianNB,NoFilter,MiniRocket,No,No,ROC-AUC,0.6543,0.6736,0.4379,0.4281,"{'pipeline__pca': PCA(n_components=0.8, svd_solver='full')}"
+GaussianNB,NoFilter,MiniRocket,Yes,Yes,ROC-AUC,0.6548,0.6745,0.4372,0.4281,"{'columntransformer__num__pca': PCA(n_components=0.8, svd_solver='full')}"
+KNeighborsClassifier,Filter,Standard,Yes,Yes,ROC-AUC,0.8120,0.6748,0.2001,0.2257,"{'columntransformer__num__pca': PCA(n_components=0.8, svd_solver='full'), 'onevsrestclassifier__estimator__n_neighbors': 7}"
+AdaBoostClassifier,NoFilter,MiniRocket,Yes,Yes,ROC-AUC,0.7076,0.6852,0.2921,0.2930,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__n_estimators': 50}"
+RandomForestClassifier,Filter,Standard,Yes,Yes,ROC-AUC,1.0000,0.6892,0.0002,0.2254,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__n_estimators': 200}"
+GaussianNB,Filter,Standard,Yes,Yes,ROC-AUC,0.6898,0.7095,0.2313,0.2197,"{'columntransformer__num__pca': PCA(n_components=0.8, svd_solver='full')}"
+LogisticRegression,Filter,Standard,Yes,Yes,ROC-AUC,0.6970,0.7151,0.2294,0.2197,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__C': 0.1, 'onevsrestclassifier__estimator__penalty': 'l1'}"
+KNeighborsClassifier,NoFilter,MiniRocket,No,No,ROC-AUC,0.7492,0.7179,0.2783,0.2916,"{'onevsrestclassifier__estimator__n_neighbors': 7, 'pipeline__pca': PCA(n_components=0.8, svd_solver='full')}"
+KNeighborsClassifier,NoFilter,MiniRocket,Yes,Yes,ROC-AUC,0.7495,0.7182,0.2781,0.2932,"{'columntransformer__num__pca': PCA(n_components=0.8, svd_solver='full'), 'onevsrestclassifier__estimator__n_neighbors': 7}"
+AdaBoostClassifier,Filter,Standard,Yes,Yes,ROC-AUC,0.7432,0.7226,0.2206,0.2202,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__n_estimators': 50}"
+GaussianNB,NoFilter,Wavelet,No,No,ROC-AUC,0.7365,0.7407,0.2864,0.2801,{'pipeline__pca': 'passthrough'}
+GaussianNB,NoFilter,Wavelet,Yes,Yes,ROC-AUC,0.7377,0.7422,0.2852,0.2790,{'columntransformer__num__pca': 'passthrough'}
+KNeighborsClassifier,NoFilter,Wavelet,No,No,ROC-AUC,0.8959,0.7497,0.1733,0.2057,"{'onevsrestclassifier__estimator__n_neighbors': 7, 'pipeline__pca': PCA(n_components=0.95, svd_solver='full')}"
+GaussianNB,Filter,Wavelet,No,No,ROC-AUC,0.7370,0.7536,0.2590,0.2383,{'pipeline__pca': 'passthrough'}
+GaussianNB,Filter,Wavelet,Yes,Yes,ROC-AUC,0.7383,0.7549,0.2590,0.2378,{'columntransformer__num__pca': 'passthrough'}
+KNeighborsClassifier,NoFilter,Wavelet,Yes,Yes,ROC-AUC,0.8984,0.7592,0.1706,0.2005,"{'columntransformer__num__pca': PCA(n_components=0.95, svd_solver='full'), 'onevsrestclassifier__estimator__n_neighbors': 7}"
+KNeighborsClassifier,Filter,Wavelet,No,No,ROC-AUC,0.9008,0.7749,0.1660,0.1879,"{'onevsrestclassifier__estimator__n_neighbors': 7, 'pipeline__pca': PCA(n_components=0.9, svd_solver='full')}"
+KNeighborsClassifier,Filter,Wavelet,Yes,Yes,ROC-AUC,0.9028,0.7764,0.1666,0.1910,"{'columntransformer__num__pca': PCA(n_components=0.95, svd_solver='full'), 'onevsrestclassifier__estimator__n_neighbors': 7}"
+KNeighborsClassifier,Filter,MiniRocket,Yes,Yes,ROC-AUC,0.9220,0.8182,0.1419,0.1636,"{'columntransformer__num__pca': PCA(n_components=0.8, svd_solver='full'), 'onevsrestclassifier__estimator__n_neighbors': 7}"
+KNeighborsClassifier,Filter,MiniRocket,No,No,ROC-AUC,0.9217,0.8188,0.1423,0.1636,"{'onevsrestclassifier__estimator__n_neighbors': 7, 'pipeline__pca': PCA(n_components=0.8, svd_solver='full')}"
+AdaBoostClassifier,NoFilter,MiniRocket,Yes,Yes,Hamming Loss,0.6873,0.6992,0.3063,0.3101,"{'columntransformer__num__pca': PCA(n_components=0.95, svd_solver='full'), 'onevsrestclassifier__estimator__n_estimators': 50}"
+GaussianNB,NoFilter,MiniRocket,Yes,Yes,Hamming Loss,0.5137,0.5161,0.7156,0.7344,"{'columntransformer__num__pca': PCA(n_components=0.95, svd_solver='full')}"
+KNeighborsClassifier,NoFilter,MiniRocket,Yes,Yes,Hamming Loss,0.6516,0.6126,0.2802,0.3096,"{'columntransformer__num__pca': PCA(n_components=0.9, svd_solver='full'), 'onevsrestclassifier__estimator__n_neighbors': 1}"
+LogisticRegression,NoFilter,MiniRocket,Yes,Yes,Hamming Loss,0.5000,0.5000,0.2600,0.2573,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__C': 0.001, 'onevsrestclassifier__estimator__penalty': 'l1'}"
+RandomForestClassifier,NoFilter,MiniRocket,Yes,Yes,Hamming Loss,0.5201,0.5160,0.5654,0.5693,"{'columntransformer__num__pca': PCA(n_components=0.95, svd_solver='full'), 'onevsrestclassifier__estimator__n_estimators': 50}"
+SGDClassifier,NoFilter,MiniRocket,Yes,Yes,Hamming Loss,,,0.2431,0.2276,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__alpha': 0.1, 'onevsrestclassifier__estimator__penalty': 'l1'}"
+AdaBoostClassifier,NoFilter,MiniRocket,No,No,Hamming Loss,0.6850,0.6857,0.3653,0.3760,"{'onevsrestclassifier__estimator__n_estimators': 50, 'pipeline__pca': PCA(n_components=0.95, svd_solver='full')}"
+GaussianNB,NoFilter,MiniRocket,No,No,Hamming Loss,0.5136,0.5161,0.7156,0.7344,"{'pipeline__pca': PCA(n_components=0.95, svd_solver='full')}"
+KNeighborsClassifier,NoFilter,MiniRocket,No,No,Hamming Loss,0.6502,0.6122,0.2817,0.3099,"{'onevsrestclassifier__estimator__n_neighbors': 1, 'pipeline__pca': PCA(n_components=0.9, svd_solver='full')}"
+LogisticRegression,NoFilter,MiniRocket,No,No,Hamming Loss,0.5000,0.5000,0.2600,0.2573,"{'onevsrestclassifier__estimator__C': 0.001, 'onevsrestclassifier__estimator__penalty': 'l1', 'pipeline__pca': 'passthrough'}"
+RandomForestClassifier,NoFilter,MiniRocket,No,No,Hamming Loss,0.5058,0.5158,0.5391,0.5455,"{'onevsrestclassifier__estimator__n_estimators': 50, 'pipeline__pca': PCA(n_components=0.95, svd_solver='full')}"
+SGDClassifier,NoFilter,MiniRocket,No,No,Hamming Loss,,,0.3408,0.3460,"{'onevsrestclassifier__estimator__alpha': 0.1, 'onevsrestclassifier__estimator__penalty': 'l1', 'pipeline__pca': 'passthrough'}"
+AdaBoostClassifier,NoFilter,Wavelet,Yes,Yes,Hamming Loss,0.9359,0.7802,0.1267,0.2033,"{'columntransformer__num__pca': PCA(n_components=0.95, svd_solver='full'), 'onevsrestclassifier__estimator__n_estimators': 100}"
+GaussianNB,NoFilter,Wavelet,Yes,Yes,Hamming Loss,0.7028,0.7220,0.2962,0.2804,"{'columntransformer__num__pca': PCA(n_components=0.95, svd_solver='full')}"
+KNeighborsClassifier,NoFilter,Wavelet,Yes,Yes,Hamming Loss,0.9998,0.6284,0.0002,0.2357,"{'columntransformer__num__pca': PCA(n_components=0.8, svd_solver='full'), 'onevsrestclassifier__estimator__n_neighbors': 1}"
+LogisticRegression,NoFilter,Wavelet,Yes,Yes,Hamming Loss,0.5000,0.5000,0.2600,0.2573,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__C': 0.001, 'onevsrestclassifier__estimator__penalty': 'l1'}"
+RandomForestClassifier,NoFilter,Wavelet,Yes,Yes,Hamming Loss,1.0000,0.7763,0.0006,0.2086,"{'columntransformer__num__pca': PCA(n_components=0.95, svd_solver='full'), 'onevsrestclassifier__estimator__n_estimators': 50}"
+SGDClassifier,NoFilter,Wavelet,Yes,Yes,Hamming Loss,,,0.2215,0.2143,"{'columntransformer__num__pca': PCA(n_components=0.8, svd_solver='full'), 'onevsrestclassifier__estimator__alpha': 0.0001, 'onevsrestclassifier__estimator__penalty': 'l1'}"
+AdaBoostClassifier,NoFilter,Wavelet,No,No,Hamming Loss,0.8892,0.7925,0.1568,0.1981,"{'onevsrestclassifier__estimator__n_estimators': 50, 'pipeline__pca': PCA(n_components=0.95, svd_solver='full')}"
+GaussianNB,NoFilter,Wavelet,No,No,Hamming Loss,0.7009,0.7198,0.2976,0.2832,"{'pipeline__pca': PCA(n_components=0.95, svd_solver='full')}"
+KNeighborsClassifier,NoFilter,Wavelet,No,No,Hamming Loss,0.9998,0.6197,0.0002,0.2421,"{'onevsrestclassifier__estimator__n_neighbors': 1, 'pipeline__pca': PCA(n_components=0.9, svd_solver='full')}"
+LogisticRegression,NoFilter,Wavelet,No,No,Hamming Loss,0.5000,0.5000,0.2600,0.2573,"{'onevsrestclassifier__estimator__C': 0.001, 'onevsrestclassifier__estimator__penalty': 'l1', 'pipeline__pca': 'passthrough'}"
+RandomForestClassifier,NoFilter,Wavelet,No,No,Hamming Loss,1.0000,0.7792,0.0004,0.2112,"{'onevsrestclassifier__estimator__n_estimators': 50, 'pipeline__pca': PCA(n_components=0.95, svd_solver='full')}"
+SGDClassifier,NoFilter,Wavelet,No,No,Hamming Loss,,,0.2235,0.2243,"{'onevsrestclassifier__estimator__alpha': 0.0001, 'onevsrestclassifier__estimator__penalty': 'l2', 'pipeline__pca': PCA(n_components=0.8, svd_solver='full')}"
+AdaBoostClassifier,NoFilter,Wavelet,No,No,ROC-AUC,0.9563,0.8218,0.1063,0.1810,"{'onevsrestclassifier__estimator__n_estimators': 100, 'pipeline__pca': 'passthrough'}"
+AdaBoostClassifier,Filter,Wavelet,No,No,ROC-AUC,0.9185,0.8292,0.1368,0.1810,"{'onevsrestclassifier__estimator__n_estimators': 50, 'pipeline__pca': 'passthrough'}"
+AdaBoostClassifier,Filter,Wavelet,Yes,Yes,ROC-AUC,0.9578,0.8328,0.1038,0.1738,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__n_estimators': 100}"
+AdaBoostClassifier,NoFilter,Wavelet,Yes,Yes,ROC-AUC,0.9578,0.8361,0.1045,0.1729,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__n_estimators': 100}"
+GaussianNB,Filter,MiniRocket,No,No,ROC-AUC,0.8251,0.8382,0.2056,0.1879,"{'pipeline__pca': PCA(n_components=0.8, svd_solver='full')}"
+GaussianNB,Filter,MiniRocket,Yes,Yes,ROC-AUC,0.8260,0.8390,0.2043,0.1874,"{'columntransformer__num__pca': PCA(n_components=0.8, svd_solver='full')}"
+LogisticRegression,NoFilter,Wavelet,No,No,ROC-AUC,0.8995,0.8511,0.1376,0.1643,"{'onevsrestclassifier__estimator__C': 0.1, 'onevsrestclassifier__estimator__penalty': 'l1', 'pipeline__pca': 'passthrough'}"
+RandomForestClassifier,NoFilter,Wavelet,No,No,ROC-AUC,1.0000,0.8546,0.0002,0.1677,"{'onevsrestclassifier__estimator__n_estimators': 200, 'pipeline__pca': 'passthrough'}"
+LogisticRegression,Filter,Wavelet,No,No,ROC-AUC,0.9072,0.8570,0.1315,0.1610,"{'onevsrestclassifier__estimator__C': 0.01, 'onevsrestclassifier__estimator__penalty': 'l2', 'pipeline__pca': 'passthrough'}"
+RandomForestClassifier,Filter,Wavelet,Yes,Yes,ROC-AUC,1.0000,0.8586,0.0002,0.1686,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__n_estimators': 200}"
+RandomForestClassifier,NoFilter,Wavelet,Yes,Yes,ROC-AUC,1.0000,0.8586,0.0002,0.1688,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__n_estimators': 200}"
+LogisticRegression,NoFilter,Wavelet,Yes,Yes,ROC-AUC,0.9010,0.8596,0.1370,0.1600,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__C': 0.1, 'onevsrestclassifier__estimator__penalty': 'l1'}"
+RandomForestClassifier,Filter,Wavelet,No,No,ROC-AUC,1.0000,0.8597,0.0002,0.1681,"{'onevsrestclassifier__estimator__n_estimators': 200, 'pipeline__pca': 'passthrough'}"
+LogisticRegression,Filter,Wavelet,Yes,Yes,ROC-AUC,0.8979,0.8634,0.1384,0.1577,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__C': 0.1, 'onevsrestclassifier__estimator__penalty': 'l1'}"
+AdaBoostClassifier,Filter,MiniRocket,Yes,Yes,ROC-AUC,0.9850,0.8650,0.0620,0.1424,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__n_estimators': 100}"
+AdaBoostClassifier,Filter,MiniRocket,No,No,ROC-AUC,0.9847,0.8719,0.0630,0.1417,"{'onevsrestclassifier__estimator__n_estimators': 100, 'pipeline__pca': 'passthrough'}"
+RandomForestClassifier,Filter,MiniRocket,Yes,Yes,ROC-AUC,1.0000,0.8872,0.0002,0.1356,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__n_estimators': 200}"
+RandomForestClassifier,Filter,MiniRocket,No,No,ROC-AUC,1.0000,0.8890,0.0002,0.1370,"{'onevsrestclassifier__estimator__n_estimators': 200, 'pipeline__pca': 'passthrough'}"
+LogisticRegression,NoFilter,MiniRocket,Yes,Yes,ROC-AUC,0.9680,0.9051,0.0813,0.1322,"{'columntransformer__num__pca': 'passthrough', 'onevsrestclassifier__estimator__C': 0.001, 'onevsrestclassifier__estimator__penalty': 'l2'}"
+LogisticRegression,NoFilter,MiniRocket,No,No,ROC-AUC,0.9730,0.9070,0.0724,0.1268,"{'onevsrestclassifier__estimator__C': 0.001, 'onevsrestclassifier__estimator__penalty': 'l2', 'pipeline__pca': 'passthrough'}"
