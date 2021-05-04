@@ -121,13 +121,15 @@ def plot_final_scores(df, score_train, score_test):
 scores_csv = cur_dir + '\Results\\scores.csv'
 scores_df = pd.read_csv(scores_csv, header=0)
 
-# ROC scores
-roc_auc_scores = scores_df.drop(['hamming_loss', 'hamming_loss_training'], axis=1)
-roc_auc_scores = roc_auc_scores[roc_auc_scores['classifier'] != 'SGDClassifier']
+# AUC scores
+
+auc_df = scores_df[scores_df['data_stream'].str.contains('02')]
+roc_auc_scores = auc_df.drop(['hamming_loss', 'hamming_loss_training'], axis=1)
+roc_auc_scores = auc_df[auc_df['classifier'] != 'SGDClassifier']
 plot_final_scores(roc_auc_scores, 'ROC_AUC_training', 'ROC_AUC')
 
 
 # Hamming loss scores
-hl_scores = scores_df.drop(['ROC_AUC', 'ROC_AUC_training'], 
-                                axis=1)
+hl_df = scores_df[scores_df['data_stream'].str.contains('01')]
+hl_scores = hl_df.drop(['ROC_AUC', 'ROC_AUC_training'], axis=1)
 plot_final_scores(hl_scores, 'hamming_loss_training', 'hamming_loss')
