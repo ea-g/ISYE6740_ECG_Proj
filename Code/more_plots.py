@@ -147,13 +147,27 @@ labels = ['CD', 'HYP', 'MI', 'NORM', 'STTC']
 # ===============================================================================================
 # getting corresponding ROC plots
 
-y_true = np.load(os.path.join(data_folder, 'y_test-final.npy'))
-for i, row in top_models.iterrows():
-    model_path = os.path.join(output_folder, row.data_stream + '_' + row.classifier + '.joblib')
-    model = load(model_path)
-    test_path = os.path.join(data_folder, row.data_stream + '-test.h5')
-    test_data = pd.read_hdf(test_path, key='test')
-    y_prob = model.predict_proba(test_data)
-    title = '{} with {} \nusing ROC AUC as CV scoring'.format(row.classifier,
-                                                              data_keys[row.data_stream])
-    multilabel_roc(y_true, y_prob, title, labels, save=row.data_stream + '-' + row.classifier)
+# y_true = np.load(os.path.join(data_folder, 'y_test-final.npy'))
+# for i, row in top_models.iterrows():
+#     model_path = os.path.join(output_folder, row.data_stream + '_' + row.classifier + '.joblib')
+#     model = load(model_path)
+#     test_path = os.path.join(data_folder, row.data_stream + '-test.h5')
+#     test_data = pd.read_hdf(test_path, key='test')
+#     y_prob = model.predict_proba(test_data)
+#     title = '{} with {} \nusing ROC AUC as CV scoring'.format(row.classifier,
+#                                                               data_keys[row.data_stream])
+#     multilabel_roc(y_true, y_prob, title, labels, save=row.data_stream + '-' + row.classifier)
+
+# ===================================================================================================
+# getting boxplots for ECG descriptors
+ecg_path = os.path.join(data_folder, 'ecg_descriptors_clean.csv')
+ecg_des = pd.read_csv(ecg_path, index_col=0)
+fig, axs = plt.subplots(2, 3, figsize=(12, 6))
+axs = axs.ravel()
+color = sns.color_palette("husl", 6)
+for ax, col, c in zip(range(6), ecg_des.columns, color):
+    sns.set_style("whitegrid")
+    sns.violinplot(data=ecg_des[[col]], ax=axs[ax], color=c)
+plt.suptitle('Violin Plots of ECG Descriptors', y=.98)
+plt.savefig(os.path.join(docs_folder, 'ECG_descriptors_violin.jpg'))
+plt.show()
