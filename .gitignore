@@ -24,3 +24,6 @@ Data/fil02-wavelet-meta-ecg-train.h5
 Data/fil02-wavelet-train.h5
 .idea/
 .spyproject/
+Code/example.ipynb
+Code/.ipynb_checkpoints/
+Code/__pycache__/
