@@ -1,0 +1,6 @@
+,0
+ROC_AUC_train,0.9645960312739069
+ROC_AUC_test,0.9171519367833119
+Hamming_train,0.0812165879483054
+Hamming_test,0.11890892279241794
+parameters,"{'estimator__C': 0.001, 'estimator__class_weight': None, 'estimator__dual': False, 'estimator__fit_intercept': True, 'estimator__intercept_scaling': 1, 'estimator__l1_ratio': None, 'estimator__max_iter': 3000, 'estimator__multi_class': 'auto', 'estimator__n_jobs': None, 'estimator__penalty': 'l2', 'estimator__random_state': None, 'estimator__solver': 'saga', 'estimator__tol': 0.001, 'estimator__verbose': 0, 'estimator__warm_start': False, 'estimator': LogisticRegression(C=0.001, max_iter=3000, solver='saga', tol=0.001), 'n_jobs': -2}"

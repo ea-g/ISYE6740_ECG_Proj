@@ -120,10 +120,10 @@ clf_report = classification_report(y_test, y_pred_test, output_dict=True, target
 cnf_matrix = multilabel_confusion_matrix(y_test, y_pred_test)
 
 # plots and tables
-timing_df = pd.DataFrame(data=timings)
+timing_df = pd.Series(data=timings)
 timing_df.to_csv(os.path.join(results_folder, 'timing.csv'))
 
-all_data_score = pd.DataFrame(data=full_scores)
+all_data_score = pd.Series(data=full_scores)
 all_data_score.to_csv(os.path.join(results_folder, 'all_data_score.csv'))
 
 clf_report_df = pd.DataFrame(data=clf_report)
