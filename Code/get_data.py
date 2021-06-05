@@ -31,8 +31,9 @@ Y.scp_codes = Y.scp_codes.apply(lambda x: ast.literal_eval(x))
 if reduced:
     Y = Y[Y.strat_fold == 9]
 
-# reduce data to folds 9 and 10 only
-Y = Y[Y.strat_fold.isin([9, 10])]
+else:
+    # reduce data to folds 9 and 10 only
+    Y = Y[Y.strat_fold.isin([9, 10])]
 
 # Load raw signal data
 X = load_raw_data(Y, sampling_rate, data_path)
